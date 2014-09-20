@@ -1,0 +1,75 @@
+﻿@model Elco.Models.JobInfo
+@{
+    ViewBag.Title = "添加或编辑招聘信息";
+    Layout = "../Shared/_Layout.cshtml";
+
+    bool isAdd = Controleng.Common.CECRequest.GetQueryInt("id",0) == 0;
+}
+<fieldset>
+    <legend>@(isAdd ? "添加" : "编辑")招聘信息</legend>
+    @Html.ValidationSummary()
+    @if(ViewBag.Status != null){
+        if (ViewBag.Status)
+        {
+            if(isAdd){
+                <text><div class="success">保存成功！是否继续？<a href="?">是</a>&nbsp;或&nbsp;<a href="List">返回</a></div></text>
+            }else{
+                <text><div class="success">更新成功！<a href="List">返回</a></div></text>
+            }
+        }
+        else { 
+            <text><div class="error">出现未知错误，请联系管理员！</div></text>
+        }
+    }
+    <form method="post">
+        <table width="100%">
+            <tr>
+                <th align="right">职位名称：</th>
+                <td>@Html.TextBoxFor(m => m.Title, new { @class = "input-long" })</td>
+            </tr>
+            <tr>
+                <th align="right" valign="top">职位介绍：</th>
+                <td>@Html.TextAreaFor(m=>m.Introduction)</td>
+            </tr>
+            <tr>
+                <th align="right">工作地点：</th>
+                <td>@Html.TextBoxFor(m=>m.WorkingPlace)</td>
+            </tr>
+            <tr>
+                <th align="right">招聘人数：</th>
+                <td>@Html.TextBoxFor(m=>m.Number)</td>
+            </tr>
+            <tr>
+                <th align="right" valign="top">属性：</th>
+                <td>
+                    <table>
+                        <tr>
+                            <td align="right">是否发布：</td>
+                            <td>@Html.CheckBoxFor(m=>m.IsPublished)</td>
+                        </tr>
+                        <tr>
+                            <td align="right">IsHot：</td>
+                            <td>@Html.CheckBoxFor(m=>m.IsHot)</td>
+                        </tr>
+                        <tr>
+                            <td align="right">排序：</td>
+                            <td>@Html.TextBoxFor(m=>m.Sort)</td>
+                        </tr>
+                    </table></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="List">返回</a>&nbsp;&nbsp;<input type="submit" value="保存" /></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            //设置编辑器
+            _GLOBAL.initEditor('Introduction', null, 250);
+        });
+    </script>
+}
+

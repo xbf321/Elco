@@ -1,0 +1,4 @@
+﻿@{
+    var catInfo = ViewBag.CurrentCategoryInfo ?? new Elco.Models.CategoryInfo(){Introduction = "No information"};
+ }
+@Html.Raw(catInfo.Introduction)

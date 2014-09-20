@@ -1,0 +1,105 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <style type="text/css">
+       body{font-size:12px;font-family:"Verdana";margin:0;padding:0;}
+        a,a:hover{text-decoration:none;}
+        h1,h2,iframe,p{padding:0;margin:0;}
+        a{color:#000;}
+        a:hover{text-decoration:underline;}
+        input,textarea{font-size:12px;}
+        ul{list-style:none outside none;margin:0;padding:0;}
+        .clear{clear:both;}
+        .none{ display:none;}
+        .field-validation-error{color:red;}
+        .input-validation-error{border:1px solid red;background-color:#fee;}
+        .validation-summary-errors{font-weight:700;color:red;display:block;border:1px red dotted;padding:10px;margin:10px;margin:10px;}
+        .field-validation-valid,.validation-summary-valid{display:none;}
+        div.success{font-size:14px;font-weight:700;color:#404040;border:1px solid #ddd;line-height:22px;background-color:#f0ffe5;border-color:#4dbf00;padding:17px 10px 17px 56px;margin:10px 0;}
+        div.error{font-size:14px;font-weight:700;color:red;border:1px solid red;line-height:22px;background-color:#fff;border-color:red;padding:17px 10px 17px 56px;margin:10px 0;}
+        .tblist{border:1px solid #ddd; border-collapse:collapse;}
+        .tblist .tdcenter{text-align:center;}
+        .tblist tr th{background:#f8f8f8;line-height:30px;border-bottom:1px solid #ddd;padding:0 15px;border-left:1px solid #ddd;}
+        .tblist tr td{background:#fff;line-height:25px;border-bottom:1px solid #ddd;padding:0 15px;border-left:1px solid #ddd;}
+        .tblist tr.odd td{background:#fbfbfb;}
+        .tblist tr:hover td{background:#fdfcf6;}
+        .tblist .action{text-align:right;padding:0 20px 0 10px;}
+        .tblist tr .action a{text-decoration:none;color:#9b9b9b;margin:0 0 0 10px;}
+        .tblist tr:hover .action .edit{color:#c5a059;}
+        .tblist tr:hover .action .delete{color:#a02b2b;}
+        .tblist tr:hover .action .view{color:#55a34a;}
+        .tblist tr:hover .action a:hover{text-decoration:underline;}
+        .btn-add{border:1px solid #ddd;display:block;width:80px;height:18px;background-color:Gray;color:#fff;font-weight:700;padding:5px 10px;float:left; margin-right:10px;}
+        .tip{color:Red;margin-left:10px;font-weight:700;margin-right:10px;}
+        fieldset{padding:5px;margin:10px;}
+        select{ line-height:30px;font-size:18px;width:300px;}
+        .pagerbar{padding:10px;}
+        .pagerbar span{ margin-right:10px;}
+        .input-long{width:300px;}
+    </style>
+    <link href="/Styles/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/jquery.treeview.css" rel="stylesheet" type="text/css" />    
+    <script src="/Scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.treeview.js" type="text/javascript"></script>
+    <!--编辑器以及编辑器中本地上传图片-->
+    <script src="/editor/tiny_mce/tiny_mce.js?v=201207241716" type="text/javascript"></script>
+    <!--编辑器以及编辑器中本地上传图片-->
+    <script type="text/javascript">
+        var _GLOBAL = { initEditor: function (element, width, height) {
+            tinyMCE.init({
+                theme: "advanced",
+                mode: "exact",
+                width: width || "100%",
+                height: height || 700,
+                elements: element,
+                language: "zh-cn",
+                plugins: "table,insertdatetime,media,xuimg,contextmenu,paste,inlinepopups,attach",
+                // Theme options
+                theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect,|,link,unlink,|,forecolor,backcolor,",
+                theme_advanced_buttons2: "tablecontrols,|,hr,removeformat,|,media,|,xuimg,image,attach,|,code",
+                theme_advanced_buttons3: "",
+                theme_advanced_toolbar_location: "top",
+                theme_advanced_toolbar_align: "left",
+                theme_advanced_path: false,
+                theme_advanced_statusbar_location: "bottom",
+                theme_advanced_resizing: true,
+                theme_advanced_resize_horizontal: false,
+                theme_advanced_resizing_use_cookie: 1,
+                theme_advanced_more_colors: false,
+                theme_advanced_font_sizes: '3,4,5,6,7',
+                relative_urls: true,
+                convert_urls: false,
+                theme_advanced_fonts: '楷体_GB2312=楷体_GB2312;黑体=黑体;隶书=隶书;Times New Roman=Times New Roman;Arial=Arial;',
+                convert_fonts_to_spans: true,
+                remove_trailing_nbsp: true,
+                convert_newlines_to_brs: false,
+                force_br_newlines: false,
+                force_p_newlines: false,
+                remove_linebreaks: false,
+                remove_script_host: false,
+                forced_root_block: "p",
+                paste_auto_cleanup_on_paste: true,
+                extended_valid_elements: "pre[name|class],style",
+                whitespace_elements: "span,pre,script,style,textarea",
+                cleanup: true
+            });
+        },
+            insertImageToEditor: function (obj, url) {
+                $('#' + obj).val(url);
+            },
+            openWindow: function (g, c, a, b) {
+                var e = (screen.width - c) / 2 - b, f = (screen.height - a) / 2 - b, d = window.open(g, "_blank", "width=" + c + ",height=" + a + ",toolbars=0,resizable=1,left=" + e + ",top=" + f);
+                d.focus()
+            }
+        };
+    </script>
+    @RenderSection("header",false)
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("footer",false)
+</body>
+</html>

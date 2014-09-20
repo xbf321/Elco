@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "../Shared/_ProductLayout.cshtml";
+    ViewBag.Title = ViewBag.CurrentCategoryInfo.Name;
+}
+<div class="channel_nameNtpages">
+    <p class="channelname">@(ViewBag.CurrentCategoryInfo.Name)</p>
+    <div class="channepages">
+        @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" }))
+    </div>
+</div>
+@foreach (var item in ViewBag.List)
+{
+    <text> <span class="box_15"></span>
+    <div class="channel_prodshow">
+        <div class="prodshow_Title">
+            <p class="floatR">
+                <a href="mailto:info@elco.cn"><img src="/images/zixun.jpg" height="24" align="absmiddle"/></a></p>
+            <strong>@(item.Title)</strong></div>
+        <span class="box_15"></span>
+        <p class="prodshow_img">
+            <img src="@(item.ImageUrl)" alt="@(item.Title)" /></p>
+        <div class="prodshow_info tabs">
+            <ul class="prodshow_infoTitle tabs-nav">
+                <li class="on"><a href="javascript:void(0);">技术参数</a></li>
+                @if (!string.IsNullOrEmpty(Goodspeed.Library.Char.HtmlHelper.RemoveHtml(item.Introduction)))
+                { 
+                    <text><li><a href="javascript:void(0);">产品简介</a></li></text>
+                }
+                @if (!string.IsNullOrEmpty(Goodspeed.Library.Char.HtmlHelper.RemoveHtml(item.SonModel)))
+                {
+                    <text><li><a href="javascript:void(0);">子型号</a></li></text>
+                }
+            </ul>
+            <div class="tabs-content">
+                <div style="padding: 10px;">
+                @{
+                        var count = item.Props.Count;
+                    }
+                    @if (count == 0)
+                    {
+                        <text>无</text>
+                    }
+                    else
+                    {
+                    <!--产品属性 [[-->
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0" class="prop-tb">
+                        @{
+                        for (int i = 0; i < count; i = i + 2)
+                        { 
+                            <text>
+                            <tr>
+                                <th align="left" width="110">@(item.Props[i].Name):
+                                </th>
+                                <td width="200">@Html.Raw(item.Props[i].Value)
+                                </td>
+                                @if (i + 1 < count)
+                                {
+                                    <text>
+                                    <th align="left"  width="90">@(item.Props[i + 1].Name):
+                                    </th>
+                                    <td width="200">@Html.Raw(item.Props[i + 1].Value)
+                                    </td>
+                                    </text>
+                                }
+                                else
+                                { 
+                                    <text><th>&nbsp;</th><td>&nbsp;</td></text>
+                                }
+                            </tr>
+                            </text>
+                        }
+                        }
+                        @if (!string.IsNullOrEmpty(item.DocumentUrl))
+                        { 
+                            <text>
+                            <tr>
+                                <th>
+                                    资料下载:
+                                </th>
+                                <td>@Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><img src=\"/images/pdf_ico.jpg\" /></a>", item.DocumentUrl))
+                                </td>
+                                <th>&nbsp;
+                                </th>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+                            </text>
+                        }
+                    </table>
+                    <!--产品属性 ]]-->
+                    }
+                </div>
+                <div class="none" style="padding: 10px;">@Html.Raw(item.Introduction)</div>
+                <div class="none" style="padding: 10px;">@Html.Raw(item.SonModel)</div>
+            </div>
+        </div>
+        <span class="box_15"></span>
+    </div>
+    </text>
+}
+<span class="box_30"></span>
+@Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" }))
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('.tabs').ETabs({
+                navClass: 'tabs-nav',
+                contentClass: 'tabs-content',
+                navEvent: 'click'
+            });
+        })
+        jQuery.fn.extend({
+            ETabs: function (settings) {
+                var that = this;
+                function init(config) {
+                    $('.' + config.navClass, that).children().each(function () {
+                        $(this).bind(config.navEvent, function () {
+                            //获得某一项
+                            var index = $(this).index();
+                            //改变导航选项卡
+                            $(this).addClass('on').siblings().removeClass('on');
+                            //改变内容选项卡
+                            changeTabContent(index, config.contentClass, $(this).parent().parent());
+                        });
+                    });
+                };
+                function changeTabContent(index, contentClass, owerDocument) {
+                    //获得所有内容选项卡
+                    var tabContents = $('.' + contentClass, owerDocument).children("div");
+                    //把所有的选项卡隐藏
+                    tabContents.hide();
+                    //选中的选项卡显示
+                    tabContents.eq(index).show();
+                }
+                init(settings);
+                return this;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "招聘列表";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>职位列表</legend>
+    <table>
+        <tr>
+            <td><a href="create" class="btn-add">添加职位信息</a></td>
+        </tr>
+    </table>
+    <table class="tblist" width="100%">
+        <tr>
+            <th>标题</th>
+            <th width="10%">工作地点</th>
+            <th width="10%">招聘人数</th>
+            <th width="10%">是否发布</th>
+            <th width="6%">IsHot</th>
+            <th width="6%">排序</th>
+            <th width="10%">操作</th>
+        </tr>
+        @foreach(var item in ViewBag.List){
+            <text>
+                <tr>
+                    <td>@(item.Title)</td>                    
+                    <td class="tdcenter">@(item.WorkingPlace)</td>
+                    <td class="tdcenter">@(item.Number)</td>
+                    <td class="tdcenter">@Html.Raw(item.IsPublished ? "已发布" : "<font color=\"red\">未发布</font>&nbsp;<a href=\"###\" onclick=\"pub("+item.Id+");\">发布</a>")</td>
+                    <td class="tdcenter">@Html.Raw(item.IsHot ? "是" : "否")</td>
+                    <td class="tdcenter">@(item.Sort)</td>
+                    <td class="tdcenter"><a href="Create?id=@(item.Id)">编辑</a>&nbsp;|&nbsp;<a href="javascript:void(0);" onclick="del(@(item.Id));">删除</a></td>
+                </tr>
+            </text>
+        }
+    </table>
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" }))
+    <form method="post" id="hiddenForm">
+        @Html.Hidden("action")
+        @Html.Hidden("Id",0)
+    </form>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        function del(id) {
+            if (window.confirm('确定要删除？')) {
+                $('#action', $('#hiddenForm')).val("del");
+                $('#Id', $('#hiddenForm')).val(id);
+                $('#hiddenForm').submit();
+            }
+        }
+        function pub(id) {
+            if (window.confirm('确定要发布？')) {
+                $('#action', $('#hiddenForm')).val("pub");
+                $('#Id', $('#hiddenForm')).val(id);
+                $('#hiddenForm').submit();
+            }
+        }
+    </script>
+}
+

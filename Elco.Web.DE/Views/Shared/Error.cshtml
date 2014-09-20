@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Title = "Sorry!";
+}
+@section header{
+    <style type="text/css">
+        .notfound{padding:10px;}        
+        .notfound h2{font-size:16px; font-weight:bold;}
+        .notfound_404_button div{float:left;margin-right:10px; text-decoration:underline;}
+    </style>
+}
+<div class="notfound">
+    <h2>Sorry,this page not found.</h2>
+	    <div class="notfound_404_button">
+            <div class="notfound_404_back"><a href="javascript:history.back();">Go back</a></div>
+		    <div class="notfound_404_home"><a href="/">Go home</a></div>
+	    </div>
+    </div>

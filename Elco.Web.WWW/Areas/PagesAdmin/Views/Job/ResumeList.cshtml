@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "简历列表";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>简历列表</legend>
+    @foreach (var item in ViewBag.List)
+    { 
+        <table width="700" align="center" cellpadding="4" cellspacing="1" bgcolor="#999999" style="font-size: 12px;margin-bottom:10px;">
+    <tr>
+        <td height="30" colspan="4" bgcolor="#e8e7e7" style="font-size: 14px;">
+            &nbsp;<strong>应聘职位：@(Elco.Services.JobService.Get(item.JobId).Title)</strong>&nbsp;&nbsp;[<a href="###" onclick="del(@(item.Id))">删除</a>]
+        </td>
+    </tr>
+    <tr>
+        <td width="98"  align="center" bgcolor="#FFFFFF">
+            姓&nbsp;&nbsp;名：
+        </td>
+        <td width="261"  bgcolor="#FFFFFF">
+            @(item.Realname)
+        </td>
+        <td width="92"  align="center" bgcolor="#FFFFFF">
+            性&nbsp;&nbsp;别:
+        </td>
+        <td width="234"  bgcolor="#FFFFFF">
+            @(item.Gender)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            婚育状况：
+        </td>
+        <td  bgcolor="#FFFFFF">
+            @(item.MaritalStatus)
+        </td>
+        <td  align="center" bgcolor="#FFFFFF">
+            出生日期：
+        </td>
+        <td  bgcolor="#FFFFFF">
+           @(item.Birthday)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            籍&nbsp;&nbsp;贯：
+        </td>
+        <td  colspan="3" bgcolor="#FFFFFF">
+            @(item.BirthPlace)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            最高学历：
+        </td>
+        <td  colspan="3" bgcolor="#FFFFFF">
+            @(item.Degree)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            毕业院校/专业：
+        </td>
+        <td  colspan="3" bgcolor="#FFFFFF">
+            @(item.Major)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            现居住地：
+        </td>
+        <td  colspan="3" bgcolor="#FFFFFF">
+            @(item.Address)
+        </td>
+    </tr>
+    <tr>
+        <td  align="center" bgcolor="#FFFFFF">
+            联系电话：
+        </td>
+        <td  bgcolor="#FFFFFF">
+            @(item.Phone)
+        </td>
+        <td  align="center" bgcolor="#FFFFFF">
+            邮&nbsp;&nbsp;箱：
+        </td>
+        <td  bgcolor="#FFFFFF">
+            @(item.Email)
+        </td>
+    </tr>
+    
+    <tr>
+        <td align="center" bgcolor="#FFFFFF">
+            教育背景：
+        </td>
+        <td colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @(item.Education)
+        </td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#FFFFFF">
+            家庭成员：
+        </td>
+        <td colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @(item.Family)
+        </td>
+    </tr>
+    <tr>
+        <td align="center" bgcolor="#FFFFFF">
+            工作经历：
+        </td>
+        <td colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @(item.WorkExperience)
+        </td>
+    </tr>
+</table>
+    }
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" }))
+</fieldset>
+<form id="hiddenForm" method="post">
+    <input type="hidden" id="_id" name="_id" />
+    <input type="hidden" id="_action" name="_action" />
+</form>
+@section footer{
+    <script type="text/javascript">
+        function del(id) {
+            if (window.confirm('确定要删除吗？')) {
+                $('#_id').val(id);
+                $('#_action').val('del');
+                $('#hiddenForm').submit();
+            }
+        }
+    </script>
+}

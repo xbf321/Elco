@@ -1,0 +1,36 @@
+﻿@{
+    string obj = Controleng.Common.CECRequest.GetQueryString("obj");
+    var postUrl = "/Pagesadmin/Home/UploadImage?obj=" + obj;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>上传图片</title>
+    <script type="text/javascript">
+        function insert(url) {
+            window.opener._GLOBAL.insertImageToEditor('@(obj)', url);
+            window.close();
+        }
+    </script>
+</head>
+<body>
+    @if (ViewBag.Msg != null)
+    {
+        switch ((string)ViewBag.Msg)
+        {
+            case "success":
+        <text><input type="button" onclick="insert('@ViewBag.ImageUrl');" value="上传成功，请插入" /></text>
+                                               break;
+            default:
+        <text>上传错误，请<a href="@(postUrl)">重试！</a></text>
+                         break;
+        }
+    }
+    else
+    {
+        <form action="@(postUrl)" method="post" enctype="multipart/form-data">
+        <input type="file" id="img0" name="img0" /><input type="submit" value="上传" />
+        </form>
+    }
+</body>
+</html>

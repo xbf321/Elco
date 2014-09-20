@@ -1,0 +1,183 @@
+﻿@model Elco.Models.ResumeInfo
+@{
+    ViewBag.Title = "招贤纳士";
+    Layout = "../Shared/_CommonLayout.cshtml";
+    var jobInfo = ViewBag.JobInfo;
+}
+@section header{
+    <script src="/scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.province.js" type="text/javascript"></script>
+}
+<form method="post" id="resumeForm">
+@if(ViewBag.Status != null){
+       if (ViewBag.Status)
+       {
+         <text><div class="success">提交成功！</div></text>
+       }
+       else { 
+        <text><div class="error">提交失败，请联系管理员！</div></text>
+       }
+   }
+   @Html.ValidationSummary()
+<table width="700" align="center" cellpadding="1" cellspacing="1" bordercolor="#999999"
+    bgcolor="#999999" style="font-size: 12px;">
+    <tr>
+        <td height="30" colspan="4" bgcolor="#e8e7e7" style="font-size: 14px;">
+            &nbsp;<strong>应聘职位：@(jobInfo.Title)</strong>
+        </td>
+    </tr>
+    <tr>
+        <td width="98" height="25" align="center" bgcolor="#FFFFFF">
+            姓&nbsp;&nbsp;名：<span style="color:red;">*</span>
+        </td>
+        <td width="261" height="25" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Realname, new { @class="required" ,maxlength ="10"})
+        </td>
+        <td width="92" height="25" align="center" bgcolor="#FFFFFF">
+            性&nbsp;&nbsp;别:<span style="color:red;">*</span>
+        </td>
+        <td width="234" height="25" bgcolor="#FFFFFF">
+            @Html.RadioButtonFor(m => m.Gender, "男", new { @id="Gender1",@name="Gender"})男
+            @Html.RadioButtonFor(m => m.Gender, "女", new { @id = "Gender2", @name = "Gender" })女
+            <label for="Gender" generated="true" class="error"></label>
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            婚育状况：<span style="color:red;">*</span>
+        </td>
+        <td height="25" bgcolor="#FFFFFF">
+            @Html.RadioButtonFor(m => m.MaritalStatus, "已婚已育", new { @id = "MaritalStatus1", @name = "MaritalStatus" })已婚已育
+            @Html.RadioButtonFor(m => m.MaritalStatus, "未婚未育", new { @id = "MaritalStatus2", @name = "MaritalStatus" })未婚未育
+            @Html.RadioButtonFor(m => m.MaritalStatus, "已婚未育 ", new { @id = "MaritalStatus3", @name = "MaritalStatus" })已婚未育 <label for="MaritalStatus" generated="true" class="error"></label>
+        </td>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            出生日期：<span style="color:red;">*</span>
+        </td>
+        <td height="25" bgcolor="#FFFFFF">
+            <select name="Year">
+                @for (var i = 1970; i < DateTime.Now.Year;i++ ) { 
+                    <text><option value="@(i)">@(i)年</option></text>
+                }                
+            </select>
+            <select name="Month">
+               @for (var i = 1; i < 13;i++ ) { 
+                    <text><option value="@(i.ToString("00"))">@(i)月</option></text>
+               }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            户口所在地：<span style="color:red;">*</span>
+        </td>
+        <td height="25" colspan="3" bgcolor="#FFFFFF">
+            <select name="Province" id="Province" class="required fuxuankuang">
+            </select>
+            <select name="City" id="City" class="required">
+                <option value="">==请选择==</option>
+            </select>
+            <select name="Town" id="Town" class="required">
+                <option value="">==请选择==</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            最高学历：<span style="color:red;">*</span>
+        </td>
+        <td height="25" colspan="3" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Degree, new { maxlength = 50, @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            毕业院校/专业：<span style="color:red;">*</span>
+        </td>
+        <td height="25" colspan="3" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Major, new { size = 50, maxlength = 50, @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            现居住地：<span style="color:red;">*</span>
+        </td>
+        <td height="25" colspan="3" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Address, new { size = 50, maxlength = 50, @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            联系电话：<span style="color:red;">*</span>
+        </td>
+        <td height="25" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Phone, new { maxlength = 15, @class = "required" })
+        </td>
+        <td height="25" align="center" bgcolor="#FFFFFF">
+            邮&nbsp;&nbsp;箱：<span style="color:red;">*</span>
+        </td>
+        <td height="25" bgcolor="#FFFFFF">
+            @Html.TextBoxFor(m => m.Email, new { @class="required email"})
+        </td>
+    </tr>
+    
+    <tr>
+        <td height="89" align="center" bgcolor="#FFFFFF">
+            教育背景：<span style="color:red;">*</span>
+        </td>
+        <td height="89" colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @Html.TextAreaFor(m => m.Education, new { rows = 5,cols = 80,@class="required"})
+        </td>
+    </tr>
+    <tr>
+        <td height="89" align="center" bgcolor="#FFFFFF">
+            家庭成员：
+        </td>
+        <td height="89" colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @Html.TextAreaFor(m => m.Family, new { rows = 5, cols = 80 })
+        </td>
+    </tr>
+    <tr>
+        <td height="93" align="center" bgcolor="#FFFFFF">
+            工作经历：<span style="color:red;">*</span>
+        </td>
+        <td height="93" colspan="3" valign="middle" bgcolor="#FFFFFF">
+            @Html.TextAreaFor(m => m.WorkExperience, new { rows = 5, cols = 80, @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td height="40" colspan="4" align="center" bgcolor="#FFFFFF">
+            <input type="submit" value="提交" />
+        </td>
+    </tr>
+</table>
+</form>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            //初始化省市
+            initArea({ p: { id: 'Province' }, c: { id: 'City' }, t: { id: 'Town'} });
+            $('#resumeForm').validate({
+                rules:{
+                    MaritalStatus: "required",
+                    Gender : 'required'
+                },
+                messages: {
+                    Realname: '必填',
+                    Email: '格式不正确',
+                    WorkExperience : '必填',
+                    Education : '必填',
+                    Phone : '必填',
+                    Address : '必填',
+                    Major : '必填',
+                    Degree : '必填',
+                    Province : '必选',
+                    City : '必选',
+                    Town : '必选',
+                    MaritalStatus : '必选',
+                    Gender : '必选'
+                }
+            });
+        })
+    </script>
+}

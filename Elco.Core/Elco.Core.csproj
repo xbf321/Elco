@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{916F9B61-03C3-4424-86C2-5E217C8DA11C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Elco.Core</RootNamespace>
+    <AssemblyName>Elco.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\Assemblies\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\Assemblies\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Controleng.Common">
+      <HintPath>..\Assemblies\Controleng.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Goodspeed.Library">
+      <HintPath>..\Assemblies\Goodspeed.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Assemblies\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\Assemblies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 3\Assemblies\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\EnumHelper.cs" />
+    <Compile Include="Common\FastPaging.cs" />
+    <Compile Include="Common\PagerBarHelper.cs" />
+    <Compile Include="Config\GeneralConfig.cs" />
+    <Compile Include="Data\ArticleManage.cs" />
+    <Compile Include="Data\AttachmentManage.cs" />
+    <Compile Include="Data\CategoryManage.cs" />
+    <Compile Include="Data\FeedbackManage.cs" />
+    <Compile Include="Data\JobManage.cs" />
+    <Compile Include="Data\MemberManage.cs" />
+    <Compile Include="Data\ProductManage.cs" />
+    <Compile Include="Data\ProductPropManage.cs" />
+    <Compile Include="Data\ResumeManage.cs" />
+    <Compile Include="ElcoHttpContext.cs" />
+    <Compile Include="Models\ArticleInfo.cs" />
+    <Compile Include="Models\AttachmentDownloadLogInfo.cs" />
+    <Compile Include="Models\AttachmentInfo.cs" />
+    <Compile Include="Models\CategoryInfo.cs" />
+    <Compile Include="Models\FeedbackInfo.cs" />
+    <Compile Include="Models\IPageOfList.cs" />
+    <Compile Include="Models\JobInfo.cs" />
+    <Compile Include="Models\MemberInfo.cs" />
+    <Compile Include="Models\PageOfList.cs" />
+    <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Models\ProductPropInfo.cs" />
+    <Compile Include="Models\ResumeInfo.cs" />
+    <Compile Include="Models\SearchSetting.cs" />
+    <Compile Include="Models\TemplateType.cs" />
+    <Compile Include="Models\WebLanguage.cs" />
+    <Compile Include="Mvc\Filters\PagesAdminAuthAttribute.cs" />
+    <Compile Include="Mvc\Filters\SilenceHandleErrorAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ArticleService.cs" />
+    <Compile Include="Services\AttachmentService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\FeedbackService.cs" />
+    <Compile Include="Services\JobService.cs" />
+    <Compile Include="Services\MemberService.cs" />
+    <Compile Include="Services\ProductPropService.cs" />
+    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\ResumeService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

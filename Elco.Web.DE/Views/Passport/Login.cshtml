@@ -1,0 +1,50 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+@section header{
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+}
+<form method="post" id="loginForm">
+@if (ViewBag.Status != null)
+{
+    if (ViewBag.Status == "NotLogined")
+    {
+    <text><div class="error">
+        Username or password is incorrect, please try again！</div></text>
+    }
+}
+@Html.Hidden("ReturnUrl")
+
+<table cellpadding="4" cellspacing="0" align="center">
+    <tr>
+        <th>
+            User Name：
+        </th>
+        <td>@Html.TextBoxFor(m => m.UserName, new { @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Password：
+        </th>
+        <td>@Html.PasswordFor(m => m.UserPassword, new { @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <input type="submit" value="Log in" />&nbsp;&nbsp;<a href="/passport/register">Sign up</a>
+        </td>
+    </tr>
+</table>
+</form>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#loginForm').validate();
+        })
+    </script>
+}

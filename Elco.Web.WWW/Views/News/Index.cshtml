@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "../Shared/_CommonLayout.cshtml";
+    var articleList = ViewBag.ArticleList;
+    ViewBag.Title = "新闻中心";
+}
+<h5 class="newstitle">
+    焦点新闻</h5>
+<div class="newsFocus_bar">
+    <ul class="newsFocus_List">
+        @foreach(var item in ViewBag.Focus){
+            <text>
+                <li><a href="@(item.Url)" target="_blank" title="@(item.Title)">
+                <img src="@(item.ImageUrl)" alt="@(item.Title)" width="99" height="73" /></a><strong><a
+                    href="@(item.Url)" title="@(item.Title)">@(item.Title)</a></strong><br />
+                @Goodspeed.Common.CharHelper.Truncate(item.Remark,70)</li>
+            </text>
+        }
+    </ul>
+    <span class="clear"></span>
+</div>
+<span class="box_15"></span>
+<div class="news_search">
+    <strong>所有新闻</strong>
+    <label>
+        <input type="text" name="txtNewsKey" id="txtNewsKey" value="@(Request.QueryString["key"])" />
+    </label>
+    <a href="javascript:void(0);" onclick="_GLOBAL.search('txtNewsKey');" >
+        <img src="/images/newsBtn.jpg" alt="go" width="35" height="23" align="absmiddle" /></a></div>
+<span class="box_15"></span>
+<div id="newsList">
+    <div class="newstitle_pages">
+	<!--
+        @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" }))-->
+        <strong>所有新闻列表</strong>
+    </div>
+    <ul class="news_list_item">
+        @foreach(var item in articleList){
+            <text><li><span class="newsdate">@(item.PublishDateTime.ToString("yyyy-MM-dd"))</span><a href="@(item.Url)" title="@(item.Title)">@(item.Title)</a></li></text>
+        }
+    </ul>
+    <div class="box_10"></div>
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" }))
+</div>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "修改管理员密码";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>修改密码</legend>
+    @if (ViewBag.Status != null)
+    {
+        if(ViewBag.Status == "OK"){
+            <text><div class="success">修改成功！</div></text>
+        }
+    }
+    @Html.ValidationSummary()
+    <form method="post">
+        <table>
+            <tr>
+                <th align="right">原密码：</th>
+                <td>@Html.Password("txtOldPassword")</td>
+            </tr>
+            <tr>
+                <th align="right">新密码：</th>
+                <td>@Html.Password("txtNewPassword")</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="更改" /></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+

@@ -1,0 +1,2 @@
+﻿2012/10/29
+ALTER TABLE Categories ADD [Language] SMALLINT NOT NULL DEFAULT(-1);

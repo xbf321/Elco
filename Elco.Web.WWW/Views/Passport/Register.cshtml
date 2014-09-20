@@ -1,0 +1,129 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    ViewBag.Title = "注册";
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section header{
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+}
+<form method="post" id="registerForm">
+@if (ViewBag.Status != null)
+{
+    if (ViewBag.Status == "Success")
+    {
+    <text><div class="success">
+        注册成功</div></text>
+    }
+    if (ViewBag.Status == "UserNameExists")
+    {
+    <text><div class="error">
+        用户名重复，请选择其他用户名！</div></text>
+    }
+}
+@Html.ValidationSummary()
+<table width="100%" border="0" cellspacing="1" cellpadding="0" style="font-size: 12px;">
+    <tr>
+        <td height="400" valign="top">
+            <table width="95%" border="0" align="center" cellpadding="1" cellspacing="1" bgcolor="#CCCCCC">
+                <tr bgcolor="#FFFFFF">
+                    <td height="35" align="right" valign="middle">
+                        <img src="/images/register_pic.jpg"></td>
+                    <td height="35"><strong>新会员注册：</strong>请在下面准确的输入您的注册信息！<font face="黑体">&nbsp; </font><font face="宋体">(带<font color="#FF0000">＊</font>号为必填项)</font></td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>用 户 名：                    </td>
+                    <td height="35">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "required", maxlength = 20 })&nbsp;&nbsp;长度不超过20个字符，且不得包含以下字符<font
+                            color="#FF0000">‘&nbsp; \\&nbsp; /&nbsp; 、; ，</font>                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>密&nbsp;&nbsp;&nbsp; 码：                    </td>
+                    <td height="35">
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "required", maxlength = 10 })
+                        密码最少为<font color="#FF0000">6</font>位，只能由<font color="#FF0000">数字</font>和<font color="#FF0000">英文字母</font>组成。                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>确认密码：                    </td>
+                    <td height="35">
+                        <input type="password" id="ConfirmUserPassword" name="ConfirmUserPassword" class="required"
+                            maxlength="10" />                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>真实姓名：                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.RealName, new { @class="required",@maxlength=5})
+                        &nbsp;&nbsp;请留下您的真实姓名，便于我们与您联系并及时给您发货。                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>职&nbsp;&nbsp;&nbsp; 位 ：                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Position, new { @class = "required", @maxlength = 50 })                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td height="35" align="center">
+                        <font color="#FF0000">*</font>公司名称：                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Company, new { @class = "required addrews", @maxlength = 50})                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        <font color="#FF0000">*</font>邮箱地址：                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "required email" })                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td height="35" align="center">
+                        <font color="#FF0000">*</font>电&nbsp;&nbsp;&nbsp; 话：                    </td>
+                    <td height="22">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "required", @maxlength = 20 })                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="22">&nbsp;                    </td>
+                    <td height="35">
+                        <input type="submit" value="注册" />&nbsp;&nbsp;<a href="/passport/login">登录</a>                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</form>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $.validator.addMethod("isUserName", function (value, element) {
+                return this.optional(element) || /^[a-zA-Z][A-Za-z0-9_]+$/i.test(value);
+            }, "4-20位字符，可由英文、数字及“_”组成，首字母必须英文");
+            $('#registerForm').validate({
+                rules: {
+                    UserName: {
+                        minlength: 4,
+                        maxlength: 20,
+                        isUserName: true
+                    },
+                    ConfirmUserPassword: {
+                        equalTo: '#UserPassword'
+                    }
+                },
+                messages: {
+                    UserName: {
+                        required: '用户名不能为空',
+                        minlength: '用户名最少4位字符',
+                        maxlength: '用户名最长15字符'
+                    },
+                    UserPassword: '必填',
+                    ConfirmUserPassword: '两次密码不一致',
+                    RealName : '必填',
+                    Position: '必填',
+                    Company: '必填',
+                    Email: '格式不正确',
+                    Phone: '必填'
+                }
+            });
+        })
+    </script>
+}

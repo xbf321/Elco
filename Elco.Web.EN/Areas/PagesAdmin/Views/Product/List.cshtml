@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "产品列表";
+    Layout = "../Shared/_Layout.cshtml";
+
+    var list = ViewBag.List;
+
+    int catId = Controleng.Common.CECRequest.GetQueryInt("catId",0);
+}
+@section header{
+    <style type="text/css">
+        select{width:150px;}
+    </style>
+}
+<fieldset>
+    <legend>产品列表</legend>
+    <table width="100%">
+        <tr>
+            <th width="10%" align="right">选择分类：</th>
+            <td>
+                <select id="ddlCats" name="ddlCats">
+                    @foreach(var item in ViewBag.CatList){
+                        <text><option value="@(item.Id)" @Html.Raw(catId == item.Id ? "selected=\"selected\"" : "")>@(item.Name)</option></text>
+                    }
+                </select><input type="button" value="查询" id="btnSearch" />
+            </td>
+            <td align="right"><a href="Create" class="btn-add">添加产品</a></td>
+        </tr>
+    </table>
+    <table width="100%" class="tblist">
+        <tr>
+            <th width="10%">
+                序号
+            </th>
+            <th>
+                名称
+            </th>
+            <th width="12%">
+                发布时间
+            </th>
+            <th width="10%">
+                删除
+            </th>
+            <th width="10%">
+                操作
+            </th>
+        </tr>
+        @foreach (var item in list)
+        {
+            <tr>
+                <td class="tdcenter">@item.Id
+                </td>
+                <td style="padding-left: 5px;"><a href="/product/list-@(item.CategoryId).html" target="_blank">@Html.Raw(item.IsDeleted ? "<span style=\"text-decoration: line-through;\">" + item.Title + "</span>" : item.Title)</a>
+                </td>
+                <td class="tdcenter">@item.CreateDateTime.ToString("yyyy-MM-dd")
+                </td>
+                <td class="tdcenter">@Html.Raw(item.IsDeleted ? "<font color=\"red\">已删除</font>" : "否")
+                </td>
+                <td class="tdcenter">
+                    <a href="create?id=@(item.Id)" class="edit">编辑</a>
+                </td>
+            </tr>
+        }
+    </table>
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(list.PageIndex, list.PageSize, list.TotalItemCount, new { @class = "pagerbar" }))
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#btnSearch').click(function () {
+                var v = $('#ddlCats').val();
+                window.location.href = '?catId=' + v;
+            });
+        });
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+    
+    /*
+     * 此模板需要以下变量
+     * RootCategoryInfo 
+     *      用于Banner图以及左边子导航
+     *      如果RootCategoryInfo.Id == 0 说明是自定义功能，左边子导航输出默认的RootCategoryInfo.Name即可，反之，从数据库中获取
+     * CurrentCategoryInfo
+     *      当左边子导航从数据库中获取的时候，如果选择的子导航中的分类，则左边子导航默认是选择状态
+     */
+    var rootCategoryInfo = ViewBag.RootCategoryInfo ?? new Elco.Models.CategoryInfo() { 
+            Id = 0,
+            Name = "Custom",
+            BannerAdImageUrl = "/images/custom_banner.jpg"
+        };
+    var currentCategoryInfo = ViewBag.CurrentCategoryInfo ?? new Elco.Models.CategoryInfo() { Id = 0, Name = "Custom" };
+
+}
+@section header{
+    <script type="text/javascript">
+        _GLOBAL.rootId = @(rootCategoryInfo.Id);
+    </script>
+    @RenderSection("header", false)    
+}
+<p>
+    <img src="@(rootCategoryInfo.BannerAdImageUrl)" alt="@(rootCategoryInfo.Name)" width="980" height="98" /></p>
+<div class="elco_Leftbar">
+    <div class="channel_LColumnname">
+        <h2 class="title title@(rootCategoryInfo.Id)">
+            <strong>@(rootCategoryInfo.Name)</strong></h2>
+        <div class="cLColumnname_title category-menu-wrapper">
+            @Html.Action("RenderLeftCategoryMenu", "Home", new { currentCategoryInfo = currentCategoryInfo,rootCategoryInfo = rootCategoryInfo})
+        </div>
+    </div>
+    <div class="box_20"></div>
+</div>
+<div class="elco_Rightbar">
+    <div class="channel_title01">
+        @Html.Action("RenderNav", "Home", new { currentCategoryInfo = currentCategoryInfo,isShowTitle = false })
+    </div>
+    <span class="box_10"></span>
+    <div class="main-content">@RenderBody()</div>
+</div>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            //menu
+            $('#category_menu').find('ul').each(function () {
+                this.parentNode.onmouseover = function () {
+                    $(this).find('ul').eq(0).show();
+                }
+                this.parentNode.onmouseout = function () {
+                    $(this).find('ul').eq(0).hide();
+                }
+            });
+        })
+    </script>
+    @RenderSection("footer", false)
+}

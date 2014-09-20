@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Title = "对不起，您要访问的页面暂时没有找到。您可以..";
+}
+@section header{
+    <style type="text/css">
+        .notfound{padding:10px;}        
+        .notfound h2{font-size:16px; font-weight:bold;}
+        .notfound_404_button div{float:left;margin-right:10px; text-decoration:underline;}
+    </style>
+}
+<div class="notfound">
+    <h2>对不起，您要访问的页面暂时没有找到。您可以...</h2>
+	    <div class="notfound_404_button">
+            <div class="notfound_404_back"><a href="javascript:history.back();">返回之前的页面</a></div>
+		    <div class="notfound_404_home"><a href="/">返回首页</a></div>
+	    </div>
+    </div>

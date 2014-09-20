@@ -1,0 +1,55 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "用户登录";
+}
+@section header{
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+}
+<form method="post" id="loginForm">
+@if (ViewBag.Status != null)
+{
+    if (ViewBag.Status == "NotLogined")
+    {
+    <text><div class="error">
+        用户名或密码错误，请重试！</div></text>
+    }
+}
+@Html.Hidden("ReturnUrl")
+
+<table cellpadding="4" cellspacing="0" align="center">
+    <tr>
+        <th>
+            用户名：
+        </th>
+        <td>@Html.TextBoxFor(m => m.UserName, new { @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <th>
+            密 &nbsp;码：
+        </th>
+        <td>@Html.PasswordFor(m => m.UserPassword, new { @class = "required" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <input type="submit" value="登陆" />&nbsp;&nbsp;<a href="/passport/register">注册</a>
+        </td>
+    </tr>
+</table>
+</form>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#loginForm').validate({
+                messages: {
+                    UserName: '必填',
+                    UserPassword: '必填'
+                }
+            });
+        })
+    </script>
+}

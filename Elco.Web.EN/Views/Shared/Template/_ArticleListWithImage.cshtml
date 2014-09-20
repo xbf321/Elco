@@ -1,0 +1,19 @@
+﻿@{
+    var articleList = ViewBag.ArticleList;
+    }
+<ul class="article_list_with_image">
+    @foreach(var item in articleList){
+        <text>
+            <li>
+                <p class="img"><a href="@(item.Url)" title="@(item.Title)"><img src="@(item.ImageUrl)" alt="@(item.Title)" width="150" height="112" /></a></p>
+                <div class="title_info">
+                    <div class="title"><p class="date">@(item.PublishDateTime.ToString("yyyy-MM-dd"))</p><a href="@(item.Url)" title="@(item.Title)"><strong>@(item.Title)</strong></a></div>
+                    <span class="box_15"></span>
+                    <p class="info">@Html.Raw(Goodspeed.Common.CharHelper.Truncate(Goodspeed.Common.CharHelper.RemoveHtml(item.Content),200))</p>
+                </div>
+            </li>
+        </text>
+    }
+    
+</ul>
+@Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" },1))

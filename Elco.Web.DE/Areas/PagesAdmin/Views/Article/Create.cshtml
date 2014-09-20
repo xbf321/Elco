@@ -1,0 +1,163 @@
+﻿@model Elco.Models.ArticleInfo
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "添加或编辑文章";
+    bool isAdd = Controleng.Common.CECRequest.GetQueryInt("id", 0) > 0 ? false : true;
+}
+<fieldset>
+    <legend>@(isAdd ? "新增" : "编辑")文章</legend>
+    <form method="post">
+    @Html.ValidationSummary()
+    @if (ViewBag.Msg != null)
+    {
+        <div class="success">@Html.Raw(ViewBag.Msg)</div>
+    }
+    <table width="100%">
+        <tr>
+            <th width="100px" align="right">
+                所属分类：
+            </th>
+            <td>
+            @Html.Action("RenderCategoryDropdown", "Article", new { name = "CategoryId", selectedValue = Model.CategoryId })
+                &nbsp;&nbsp;<a href="List">返回列表</a>
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                标题：
+            </th>
+            <td>@Html.TextBoxFor(m => m.Title, new { style = "width:300px" })
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" align="right">
+                内容：
+            </th>
+            <td>@Html.TextAreaFor(m => m.Content, new { style = "width:100%;height:200px" })
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" align="right">
+                描述：
+            </th>
+            <td>@Html.TextAreaFor(m => m.Remark, new { style = "width:90%;height:100px" })
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="top">
+                属性：
+            </th>
+            <td>
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">发布时间</a></li>
+                        <li><a href="#tabs-2">排序</a></li>
+                        <li><a href="#tabs-3">快速链接</a></li>
+                        <li><a href="#tabs-4">图片</a></li>
+                        <li><a href="#tabs-5">删除</a></li>
+                        <li><a href="#tabs-6">置顶</a></li>
+                        <li><a href="#tabs-7">关键词</a></li>
+                        <li><a href="#tabs-8">副标题</a></li>
+                    </ul>
+                    <div id="tabs-1">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    发布时间：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.PublishDateTime)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-2">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    排序：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Sort)<span class="tip">数值越小，位置越靠前</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-3">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    快速链接：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.LinkUrl, new { style = "width:300px" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-4">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    新闻图片：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-5">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    是否删除：
+                                </th>
+                                <td>
+                                    @Html.CheckBoxFor(m => m.IsDeleted)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-6">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    是否置顶：
+                                </th>
+                                <td>
+                                    @Html.CheckBoxFor(m => m.IsTop)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-7">
+                    @Html.TextBoxFor(m => m.Keywords, new { style = "width:300px" })（逗号或空格隔开）
+                    </div>
+                    <div id="tabs-8">@Html.TextBoxFor(m => m.SubTitle, new { style = "width:300px" })</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th align="right">是否发布：</th>
+            <td>@Html.CheckBoxFor(m => m.IsPublished)</td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <a href="List">返回</a>&nbsp;&nbsp;<input type="submit" value="@(isAdd ? "新增" : "更新")" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#tabs').tabs();
+            //设置编辑器
+            _GLOBAL.initEditor('Content', null, 250);
+        });
+    </script>
+}

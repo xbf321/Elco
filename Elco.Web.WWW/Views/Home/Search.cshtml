@@ -1,0 +1,7 @@
+﻿@{
+    Layout = "../Shared/_CommonLayout.cshtml";
+    var key = Request.QueryString["key"] ?? string.Empty;
+    ViewBag.Title = string.Format("{0}-宜科搜索",key);
+}
+<h2>Search</h2>
+

@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "ELCO Industry Automation";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+@section header{
+    <link href="/styles/jquery.jslidenews.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/jquery.jslidenews.js" type="text/javascript"></script>
+}
+<div class="elco_Leftbar">
+    <strong>Fast channel</strong> <span class="box_7"></span>
+    <label>
+        @Html.Action("RenderProductDropDownList", "Product")
+    </label>
+    <span class="box_10"></span>
+    <div class="prodsort_bar">
+            <h2>
+                <strong>Product Catalogues</strong></h2>
+            <div class="product-menu">
+                @Html.Action("RenderProductMenu", "Product")
+            </div>
+        </div>
+</div>
+<div class="elco_Rightbar">
+    <div id="jslidernews" class="lof-slidecontent" style="width: 770px; height: 340px;">
+        <div class="preload">
+            <div>
+            </div>
+        </div>
+         <div  class="button-previous">Previous</div>
+        <!-- MAIN CONTENT -->
+        <div class="main-slider-content" style="width: 770px; height: 340px;">
+            <ul class="sliders-wrap-inner">
+                @foreach (var item in ViewBag.Focus)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">
+                        <img src="@(item.ImageUrl)" alt="@(item.Title)"></a> </li></text>
+                }
+            </ul>
+        </div>
+        <!-- END MAIN CONTENT -->
+        <!-- NAVIGATOR -->
+        <div class="navigator-content">
+            <div class="navigator-wrapper">
+                <ul class="navigator-wrap-inner">
+                    @foreach (var item in ViewBag.Focus)
+                    {
+                        <text>
+                        <li>
+                            <div>
+                                <a href="@(item.Url)" target="_blank" title="@(item.Title)">
+                                    <img src="@(item.Content)" /></a>
+                            </div>
+                        </li>
+                        </text>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!----------------- END OF NAVIGATOR --------------------->
+        <div class="button-next">Next</div>
+    </div>
+    <span class="box_15"></span>
+</div>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            var buttons = { previous: $('#jslidernews .button-previous'),
+                next: $('#jslidernews .button-next')
+            };
+            $('#jslidernews').lofJSidernews({ interval: 5000,
+                duration: 1200,
+                auto: true,
+                mainWidth: 770,
+                mainHeight: 340,
+                navigatorHeight: 54,
+                navigatorWidth: 120,
+                maxItemDisplay: 4,
+                buttons: buttons
+            });
+        })
+    </script>
+}

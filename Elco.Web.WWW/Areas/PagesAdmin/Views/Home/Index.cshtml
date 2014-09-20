@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "宜科管理后台";
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section header{
+   <style type="text/css">        
+        /*header*/
+        #header-top{height:73px; position:relative; background:url("/images/pagesadmin/main_banner_bg.gif") repeat-x scroll left top #17A8EB;width:100% !important;}
+        #header-top-logo{padding:10px 0 0 20px; font-size:40px; font-family:"Verdana"; font-weight:bold;}
+         /*footer*/
+        #footer{ background:url("/images/pagesadmin/main_footer_bg.gif") repeat-x scroll left top transparent;color:#263347;left:0; position:absolute;bottom:0; height:30px; line-height:30px; margin:0; text-align:center;width:100% !important;font-family:"Verdana";}
+        /*nav-side-bar*/
+        #nav-side-bar{ background:none repeat scroll 0 0 #FFFFFF; border:1px solid #CFCECC; left:10px;top:10px;width:184px; height:161px; position:absolute;overflow-y:scroll;}
+
+        /*nav-fold*/
+        #nav-fold{ background:url("/images/pagesadmin/main_zhedie.gif") no-repeat scroll center center transparent; position:absolute; cursor:pointer; width:9px;top:5px; left:195px; height:161px;}
+
+        /*main-body*/
+        #main-body{ position:relative;}
+
+        /*main-content*/
+        #main-content{ background:none repeat scroll 0 0 #FFFFFF;border:1px solid #CFCECC; position:absolute; left:205px;margin:0;top:10px; width:600px; height:400px;}
+
+        /*main-content-nav*/
+        #main-content-nav-wrapper{ background:url("/images/pagesadmin/main_place_bg.gif") repeat-x scroll left top transparent; border-bottom:1px solid #CECED0; height:30px; width:100%;}
+        #m-c-n-img{ background:url("/images/pagesadmin/pic_sprites.png") no-repeat scroll -184px -24px transparent; cursor:pointer; height:11px; width:12px; display:inline; float:left; margin:8px 0 0 10px !important;}
+        #m-c-n-current{ float:left; margin:8px 0 0 10px !important; font-size:1em; color:#3A6585;}
+        #m-c-n-text{float:left; margin:8px 0 0 10px !important;color:#3A6585; font-weight:700;}
+        
+        .treeview{margin:10px 0 0 10px;}
+    </style>
+}
+<div id="header-top">
+    <h2 id="header-top-logo">
+        宜科管理后台</h2>
+</div>
+<div id="main-body">
+    <div id="nav-side-bar">
+        <ul id="treeview" class="treeview">
+            <li>文章管理
+                <ul>
+                    <li><a href="/PagesAdmin/Article/Create" target="iframeMain">添加文章</a></li>
+                    <li><a href="/PagesAdmin/Article/List" target="iframeMain">文章列表</a></li>
+                    <li><a href="/PagesAdmin/Category/List?lang=-1" target="iframeMain">文章分类管理</a></li>
+                </ul>
+            </li>
+            <li>产品管理
+                <ul>
+                    <li><a href="/PagesAdmin/Product/Create" target="iframeMain">添加产品</a></li>
+                    <li><a href="/PagesAdmin/Product/List" target="iframeMain">产品列表</a></li>
+                    <li><a href="/PagesAdmin/Product/Prop" target="iframeMain">产品属性管理</a></li>
+                    <li><a href="/PagesAdmin/Product/CatList" target="iframeMain">产品分类管理</a></li>
+                </ul>
+            </li>
+            <li><a href="/Pagesadmin/Feedback/List" target="iframeMain">投诉与建议</a></li>
+            <li>招聘管理
+                <ul>
+                    <li><a href="/pagesadmin/job/create" target="iframeMain">添加职位信息</a></li>
+                    <li><a href="/pagesadmin/job/list" target="iframeMain">职位列表</a></li>
+                    <li><a href="/pagesadmin/job/resumelist" target="iframeMain">简历列表</a></li>
+                </ul>
+            </li>
+            <li>
+                下载管理
+                <ul>
+                   <li><a href="/pagesadmin/attach/create" target="iframeMain">添加附件信息</a></li>
+                    <li><a href="/pagesadmin/attach/list" target="iframeMain">下载列表</a></li>
+                    <li><a href="/pagesadmin/attach/loglist" target="iframeMain">下载日志</a></li>
+                </ul>
+            </li>
+            <li>系统管理
+                <ul>
+                    <li><a href="/PagesAdmin/Member/List" target="iframeMain">用户列表</a></li>
+                    <li><a href="/PagesAdmin/Member/Download" target="iframeMain">用户下载</a></li>
+                    <li><a href="/PagesAdmin/Member/AdminList" target="iframeMain">管理员列表</a></li>
+                    <li><a href="/PagesAdmin/Member/SetAdminPwd" target="iframeMain">修改密码</a></li>
+                </ul>
+            </li>
+            <li><a href="/PagesAdmin/logout">退出</a></li>            
+        </ul>
+    </div>
+    <div id="main-content">
+        <p id="main-content-nav-wrapper">
+            <span id="m-c-n-img"></span><span id="m-c-n-current">当前位置：</span> <span id="m-c-n-text">
+                系统首页</span>
+        </p>
+        <iframe id="iframeMain" name="iframeMain" width="100%" scrolling="yes" frameborder="0"
+            src="/Pagesadmin/Article/List" style="overflow-x: hidden;"></iframe>
+    </div>
+</div>
+<div id="footer">
+    技术支持：兴百放(13466332458)&nbsp;&nbsp;Email:xbf321@gmail.com</div>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            function initFrame() {
+                var myHeight = $(window).height();
+                var myWidth = $(window).width();
+                var otherHeight = 73 + 30;  //页头和页尾
+                var otherWidth = 215;
+                $('#main-body').css({ "height": myHeight - otherHeight + 'px' });
+                $('#nav-side-bar').css({ "height": myHeight - otherHeight - 20 + 'px' });
+                $('#main-content').css({ "height": myHeight - otherHeight - 20 + 'px', "width": myWidth - otherWidth + "px" });
+                $('#iframeMain').css({ "height": myHeight - otherHeight - 52 + 'px' });
+            }
+            window.onresize = function () {
+                initFrame();
+            }
+            initFrame();
+
+
+            $("#treeview").treeview({
+                collapsed: false,
+                animated: "medium",
+                control: "#sidetreecontrol",
+                persist: "location"
+            });
+        });
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "管理员列表";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>管理员列表</legend>
+    @if(ViewBag.Status != null){
+        if(ViewBag.Status == "AddSuccess"){
+            <text><div class="success">添加成功！</div></text>
+        }
+        if(ViewBag.Status == "AddError"){
+            <text><div class="error">已经存在此管理员，添加失败！</div></text>
+        }
+        if(ViewBag.Status == "DeleteSuccess"){
+            <text><div class="success">删除成功！</div></text>
+        }
+    }
+    <form method="post" id="form">
+        <input type="hidden" id="_action" name="_action" value="search" />
+        <input type="hidden" id="_userId" name="_userId" />
+        <table>
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" id="txtUserName" name="txtUserName" /></td>
+                <td><input type="submit" value="查询" id="btnSearch" /><font color="red" style="margin-left:10px">注：【用户名】即在前台页面注册的用户信息！</font></td>
+            </tr>
+        </table>
+        @if(ViewBag.SearchList != null){
+            <fieldset>
+                <legend>查询结果</legend>
+                <table>
+                @foreach(var item in ViewBag.SearchList){
+                    <tr>
+                        <td>@(item.Value)</td>
+                        <td><a href="###" onclick="add(@(item.Key))">添加</a></td>
+                    </tr>
+                }
+            </table>
+            </fieldset>
+            
+        }
+        <table class="tblist">
+            <tr>
+                <th>用户名</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+            @foreach(var item in ViewBag.List){
+                <tr>
+                    <td>@(item.UserName)</td>
+                    <td>@(item.CreateDateTime.ToString("yyyy-MM-dd"))</td>
+                    <td><a href="###" onclick="del(@(item.Id))">删除</a></td>
+                </tr>
+            }
+        </table>
+    </form>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        function del(uid) {
+            if (window.confirm('确定删除？')) {
+                $('#_action').val('delete');
+                $('#_userId').val(uid);
+                $('#form').submit();
+            }
+        }
+        function add(uid) {
+            if (window.confirm('确定要添加？')) {
+                $('#_action').val('add');
+                $('#_userId').val(uid);
+                $('#form').submit();
+            }
+        }
+    </script>
+}
+

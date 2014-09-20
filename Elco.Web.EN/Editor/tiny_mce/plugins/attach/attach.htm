@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>插入附件</title>
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script src="swfupload/swfupload.js" type="text/javascript"></script>
+    <script src="swfupload/handlers.js" type="text/javascript"></script>
+</head>
+<body>
+    <form onsubmit="insertAttach();return false;" action="#">    
+    <table>
+        <tr>
+            <td>
+                <b>1,请点击下面的【本地浏览文件】按钮</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="swfuploadWrapper"><span id="swfuploadPlaceholder"></span></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="tempFileName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>2,再点击【开始上传】,文件大小 < 50M</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="开始上传" onclick="customerUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
+                    type="button" id="btnUploadCancle" value="取消上传" onclick="swfu.cancelQueue();"
+                    disabled="disabled" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="processbar"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><span id="url"></span></td>
+        </tr>
+        <tr>
+            <td><b>3,完成点击【插入】</b></td>
+        </tr>
+        <tr>
+            <td><input type="submit" id="insert" name="insert" value="插入" /><input type="button" id="cancel" name="cancel" value="取消" onclick="tinyMCEPopup.close();" /></td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        var swfu,ed;
+        //SWF Upload Init
+        swfu = new SWFUpload({
+            // Backend settings
+            upload_url: "/PagesAdmin/Home/UploadSWF",
+            file_post_name: "attachFile",
+
+            // Flash file settings
+            file_size_limit: "50 MB",
+            file_types: "*.*", 		// or you could use something like: "*.doc;*.wpd;*.pdf",
+            file_types_description: "All Files",
+            file_upload_limit: 0,
+            file_queue_limit: 1,
+
+            custom_settings: {
+                cancelButtonId: "btnUploadCancle",
+                startButtionId: "btnStartUpload"
+            },
+            swfupload_preload_handler: function preLoad() {
+                if (!this.support.loading) {
+                    alert("你需要安装Flashplayer才能使用上传功能！");
+                    return false;
+                }
+            },
+            swfupload_load_failed_handler: function loadFailed() {
+                alert("Flash加载失败，请联系网站管理员！");
+            },
+            file_dialog_complete_handler: function fileDialogComplete(numFilesSelected, numFilesQueued) {
+                try {
+                    if (numFilesSelected > 0) {}
+                    /* I can't want auto start the upload and I can do that here */
+                    //this.startUpload();
+                } catch (ex) {
+                    this.debug(ex);
+                }
+            },
+            file_queued_handler: function fileQueued(file) {
+                //显示文件名
+                document.getElementById("tempFileName").innerHTML = file.name;
+            },
+            upload_start_handler: function uploadStart(file) {return true;},
+            upload_progress_handler: function uploadProgress(file, bytesLoaded, bytesTotal) {
+                try {
+                    var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
+                    document.getElementById('processbar').innerHTML = percent + "%";
+                    if (percent == 100) {
+                        document.getElementById('processbar').innerHTML = "上传已完成！";
+                    }
+                } catch (ex) {
+                    this.debug(ex);
+                }
+            },            
+            upload_success_handler: function uploadSuccess(file, serverData) {
+                try {
+                    document.getElementById("url").innerHTML = serverData;
+                } catch (ex) {
+                    this.debug(ex);
+                }
+            },
+            upload_complete_handler: function uploadComplete(file) {
+                if (this.getStats().files_queued === 0) {
+                    document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+                    document.getElementById(this.customSettings.startButtionId).disabled = false;
+                }
+            },
+            upload_error_handler: uploadError,
+            // Button Settings
+            button_text: '<span class="redText">本地浏览文件</span>',
+            button_text_style: ".redText { color: #FF0000; }",
+            button_placeholder_id: "swfuploadPlaceholder",
+            button_width: 90,
+            button_height: 20,
+            button_text_left_padding: 2,
+            button_cursor: SWFUpload.CURSOR.HAND,
+
+            // Flash Settings
+            flash_url: "swfupload/swfupload.swf",
+            flash9_url: "swfupload/swfupload_fp9.swf",
+
+            // Debug settings
+            debug: false
+        });
+        function insertAttach() {
+            tinyMCEPopup.restoreSelection();
+            var url = document.getElementById('url').innerHTML, html = '';
+            if (url === '') {
+                alert('请上传文件');
+                return;
+            }
+            html += '<a href="' + url + '" target="_blank">下载附件</a>';
+            ed.execCommand('mceInsertContent', false, html);
+            ed.undoManager.add();
+            tinyMCEPopup.close();
+        }
+        function customerUpload() {
+            if (swfu.getStats().files_queued === 0) {
+                alert("请先选择本地文件");
+                return false;
+            }
+            document.getElementById('btnStartUpload').disabled = true;
+            document.getElementById('btnUploadCancle').disabled = false;
+            swfu.startUpload();
+        }
+        function init() {
+            ed = tinyMCEPopup.editor;
+        }
+        tinyMCEPopup.onInit.add(init);
+    </script>
+    </form>
+</body>
+</html>

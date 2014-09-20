@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Download Center";
+    Layout = "../Shared/_DownloadLayout.cshtml";
+    bool isLogin = Elco.ElcoHttpContext.Current.IsLogin;
+}
+@section header{
+    <link href="/styles/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .ui-dialog-titlebar{ display:none;}
+        .ui-widget-content{border:0;}
+        .ui-dialog .ui-dialog-content{padding:0;margin:0;}
+    </style>
+    <script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function showIframeDialog(options) {
+            options.url += options.url.indexOf('?') > 0 ? '&' : '?';
+            options.url += "timestamp=" + (new Date()).getTime();
+            var height = options.height || 300;
+            var width = options.width || 300;
+            if ($.browser.msie) {
+                if ($.browser.version < 7) {
+                    width += 26;
+                    height += 18;
+                }
+            }
+            return $('<iframe src="' + options.url + '" width="' + width + 'px" height="' + height + 'px" frameborder="0"></iframe>').dialog({
+                title: options.title,
+                height: options.height,
+                width: options.width,
+                close: function () {
+                    $(this).dialog('destroy');
+                }
+            }).css({width:width,height:height});
+        }
+        function closeIframeDialog() {
+            $('.ui-dialog').empty();
+            $('.ui-dialog').dialog('close');
+            $('.ui-dialog').remove(); 
+        }
+    </script>
+}
+<ul class="download_Bar">
+    @foreach (var item in ViewBag.List)
+    {
+        <text><li>
+        <div class="download_list">
+            <p class="pic"><img src="@(item.ImageUrl)" alt="@(item.Title)" /></p>
+            <div class="info">
+                <strong>Name：</strong>@(item.Title)
+                <br />
+                <strong>Size：</strong>@(item.Size)M
+                <br />
+                <strong>Upload Date：</strong>@(item.CreateDateTime.ToString("yyyy-MM-dd"))
+                <br />
+                <strong>Downlaod：</strong>
+                @if (isLogin) { 
+                    <text><a href="/download/track?guid=@(item.GUID)" target="_blank" title="@(item.Title)"><img src="/images/download_ico.jpg" width="19" height="18" align="absmiddle"  alt="@(item.Title)"/></a></text>
+                } else { 
+                    <text><a href="###" onclick="showIframeDialog({draggable: false,url:'/passport/minilogin',width:340,height:220});"><img src="/images/download_ico.jpg" width="19" height="18" align="absmiddle"  alt="@(item.Title)"/></a></text>
+                }
+                </div>
+        </div>
+        <span class="box_15"></span></li>
+        </text>
+    }
+</ul>
+@Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" },1))
+@section footer{
+   
+}
+

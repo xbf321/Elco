@@ -1,0 +1,383 @@
+﻿@using System.Text;
+@model Elco.Models.ProductInfo
+@{
+    ViewBag.Title = "产品管理";
+    Layout = "../Shared/_Layout.cshtml";
+
+    StringBuilder sbPropJSON = new StringBuilder();
+    int flag = 0,pCount = Model.Props.Count;
+    foreach(var item in Model.Props){
+        sbPropJSON.Append("{");
+        sbPropJSON.AppendFormat("propId:{0},name:\"{1}\",value:\"{2}\"", item.Id, item.Name.Replace('"', '”'), item.Value.Replace('"', '”'));
+        sbPropJSON.Append("}");
+        if(flag != pCount-1){
+            sbPropJSON.Append(",");
+        }
+        flag++;
+    }
+    
+}
+@section header{
+    <style type="text/css">
+        #prop-list{}
+        #prop-list li{ line-height:24px; height:24px; margin-bottom:5px;}
+        .label-prop-name{text-align:right;width:10em; font-weight:bold; float:left; height:24px; line-height:24px; margin-right:5px;}
+        .input-prop-name{border:1px solid #A0A0A0; line-height:20px; height:20px; color:#404040;}
+        select{width:150px;}
+    </style>
+    <!--上传附件-->
+    <script src="/scripts/swfupload/swfupload.js" type="text/javascript"></script>
+    <script src="/scripts/swfupload/handlers.js" type="text/javascript"></script>
+    <!--上传附件-->
+    <script type="text/javascript">
+        Array.prototype.contains = function (id) {
+            var l = this.length;
+            while (l--) {
+                if (window.parseInt(this[l]) === id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        Array.prototype.remove = function (id) {
+            var l = this.length;
+            while (l--) {
+                if (this[l] === id) {
+                    delete this[l];
+                    this.splice(l, 1);
+                }
+            }
+            return this;
+        }
+        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_EN);
+        _GLOBAL.catRoute = '@(Model.CategoryIdRoute)';
+        _GLOBAL.catItems = @Html.Action("RenderCatJSON", "Product");
+        _GLOBAL.propItems = [@Html.Raw(sbPropJSON.ToString())];
+    </script>
+}
+<form method="post" onsubmit="return checkForm();">
+<fieldset>
+    <legend>产品管理&nbsp;&nbsp;<a href="list">返回</a></legend>    
+    @Html.HiddenFor(m => m.CategoryId)
+    @Html.HiddenFor(m => m.CategoryIdRoute)
+    @Html.ValidationSummary()
+    @if (ViewBag.Msg != null)
+    {
+        <div class="success">@Html.Raw(ViewBag.Msg)</div>
+    }
+    <table width="100%" border="0">
+        <tr>
+            <th align="right" width="10%">
+                产品类别：
+            </th>
+            <td>
+                <div>
+                    <div id="cid_999999_span">
+                    </div>
+                    <div id="ajaxPic" style="display: none; float: left; margin: 2px 0px 0px 10px">
+                        <img src="/images/ajax.gif" alt="正在载入属性，请稍等。。" />正在载入属性，请稍等。。</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                产品名称：
+            </th>
+            <td>@Html.TextBoxFor(m => m.Title, new { style = "width:300px" })
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" align="right">
+                产品描述：
+            </th>
+            <td>@Html.TextBoxFor(m => m.Introduction)
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" align="right">
+                子型号：
+            </th>
+            <td>@Html.TextBoxFor(m => m.SonModel)
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="top">产品属性：</th>
+            <td><ul id="prop-list">暂无属性</ul></td>
+        </tr>
+        <tr>
+            <th align="right">
+                产品图片：
+            </th>
+            <td>@Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="top">
+                产品文档：
+            </th>
+            <td>@Html.TextBoxFor(m => m.DocumentUrl, new { style = "width:300px" })&nbsp;&nbsp;<span class="swfuploadWrapper"><span id="swfuploadPlaceholder"></span><span id="tempFileName"></span></span><br />
+            <input type="button" value="开始上传" onclick="customStartUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
+                    type="button" id="btnUploadCancle" value="取消上传" onclick="swfu.cancelQueue();"
+                    disabled="disabled" /><span id="processbar"></span>
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                排序：
+            </th>
+            <td>@Html.TextBoxFor(m =>m.Sort)
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                删除：
+            </th>
+            <td>@Html.CheckBoxFor(m => m.IsDeleted)
+            </td>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <td>
+                <a href="list">返回</a>&nbsp;&nbsp;<input type="submit" value="保存" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+</form>
+@section footer{
+    <script type="text/javascript">
+        var selectedCatIdArr = _GLOBAL.catRoute.split(',');
+        var swfu ;
+        $(function () {
+            //设置编辑器
+            _GLOBAL.initEditor('Introduction',null,200);
+            _GLOBAL.initEditor('SonModel',null,200);
+            createCatSelect(_GLOBAL.rootId, 999999, getChildCats(_GLOBAL.rootId));
+            //初始化SWFUpload
+            swfu = new SWFUpload({
+                // Backend settings
+                upload_url: "/PagesAdmin/Home/UploadSWF",
+                file_post_name: "attachFile",
+
+                // Flash file settings
+                file_size_limit: "50 MB",
+                file_types: "*.*", 		// or you could use something like: "*.doc;*.wpd;*.pdf",
+                file_types_description: "All Files",
+                file_upload_limit: 0,
+                file_queue_limit: 1,
+
+                custom_settings: {
+                    cancelButtonId: "btnUploadCancle",
+                    startButtionId: "btnStartUpload"
+                },
+                //Event Settings
+                swfupload_preload_handler: preLoad,
+                swfupload_load_failed_handler: loadFailed,
+                file_dialog_complete_handler: fileDialogComplete,
+                file_queued_handler: function fileQueued(file) {
+                    document.getElementById("tempFileName").innerHTML = file.name;
+                },
+                upload_progress_handler: uploadProgress,
+                upload_error_handler: uploadError,
+                upload_success_handler: function uploadSuccess(file, serverData) {
+                    try {
+                        document.getElementById("DocumentUrl").value = serverData;
+                    } catch (ex) {
+                        this.debug(ex);
+                    }
+                },
+                upload_complete_handler: function uploadComplete(file) {
+                    if (this.getStats().files_queued === 0) {
+                        document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+                        document.getElementById(this.customSettings.startButtionId).disabled = false;
+                    }
+                },
+
+                // Button Settings
+                button_text: '<span class="redText">选择文件</span>',
+                button_text_style: ".redText { color: #FF0000; }",
+                button_placeholder_id: "swfuploadPlaceholder",
+                button_width: 60,
+                button_height: 20,
+                button_text_left_padding: 2,
+                button_cursor: SWFUpload.CURSOR.HAND,
+
+                // Flash Settings
+                flash_url: "/scripts/swfupload/swfupload.swf",
+                flash9_url: "/scripts/swfupload/swfupload_fp9.swf",
+
+                // Debug settings
+                debug: false
+            });
+        });
+        //开始上传
+        function customStartUpload() {
+            if (swfu.getStats().files_queued === 0) {
+                alert("请先选择本地文件");
+                return false;
+            }
+            document.getElementById('btnStartUpload').disabled = true;
+            document.getElementById('btnUploadCancle').disabled = false;
+            swfu.startUpload();
+        }
+        //提交表单
+        function checkForm() {
+            //1,首先检查是否选择的是叶子节点
+            //2,获取选择的路径，并把值赋值到隐藏域类别路由中
+
+            //第一步
+            var leafCid = parseInt($('#CategoryId').val());
+            if (leafCid === 0) {
+                alert('类别请选择叶子节点，不允许选择父节点！');
+                return false;
+            }
+
+            //检查是否输入产品名
+            var titleObj = $('#Title');
+            if ($.trim(titleObj.val()) === '') {
+                alert('请输入产品名称！');
+                return false;
+            }
+
+            //第二步
+            selectedCatIdArr = [];
+            $('#cid_999999_span').find('select').each(function () {
+                if (this.type === 'select-one' && this.value !== '0' && this.value !== '') {
+                    selectedCatIdArr.push(this.value);
+                }
+            });
+            $('#CategoryIdRoute').val(selectedCatIdArr.join(','));
+
+            return true;
+        }
+        /***************************************类别操作 Start*****************************************/
+        //创建类目
+        function createCatSelect(cid, pid, catItems) {
+            var selectId = 0;
+            var sel = document.createElement('SELECT');
+            sel.setAttribute('name', 'cid_' + cid);
+            sel.setAttribute('id', 'cid_' + cid);
+            var op = document.createElement('OPTION');
+            op.setAttribute('value', '0');
+            op.innerHTML = '==请选择==';
+            sel.appendChild(op);            
+
+            for (var i in catItems) {
+                if (typeof catItems[i] === 'object') {
+                    var _id = parseInt(catItems[i]['id']);
+                    var option = document.createElement('OPTION');
+                    option.innerHTML = catItems[i]['name'];                    
+                    option.setAttribute('value', _id);
+                    if (selectedCatIdArr.contains(_id)) {
+                        option.setAttribute('selected', 'selected');
+                        selectId = _id;
+                        selectedCatIdArr.remove(_id);
+                    }
+                    sel.appendChild(option);
+                }
+            }
+
+            //追加SELECT容器
+            var selDiv = document.createElement('div');
+            selDiv.style.cssText = 'float:left;padding:0px 2px';
+            selDiv.appendChild(sel);
+            document.getElementById('cid_' + pid + '_span').appendChild(selDiv);
+            document.getElementById('cid_' + cid).onchange = function () { childCidList_Change(this, cid); };
+
+
+            var cidDiv = document.createElement('div');
+            cidDiv.id = 'cid_' + cid + '_span';
+            cidDiv.style.cssText = 'float:left;padding:0px 2px';
+
+            //向父容器中追加栏目
+
+            document.getElementById('cid_' + pid + '_span').appendChild(cidDiv);
+
+            if (selectId > 0) {
+                childCidList_Change(document.getElementById('cid_' + cid), cid);
+            }
+
+        }
+        //子类目监听函数
+        function childCidList_Change(obj, pid) {
+            var cid = parseInt($(obj).val());
+            $('#' + obj.id + '_span').html('');
+
+            //每次选择的时候把隐藏域中类别叶子节点值为0，防止获取上一次选择的值
+            $('#CategoryId').val('0');
+
+            //根据cid获得子类
+            var catArr = getChildCats(cid);
+
+            if (catArr.length > 0) {
+                createCatSelect(cid, pid, catArr);
+            } else {
+                //只有确实选择的是叶子节点的时候，才设置隐藏域中叶子节点的值
+                $('#CategoryId').val(cid);
+                loadPropForm(cid);
+            }
+        }
+        //获取子类别
+        function getChildCats(cid) {
+            var i = 0, catArr = [];
+            var items = _GLOBAL.catItems;
+            for (i in items) {
+                var pid = parseInt(items[i]['pid']);
+                if (pid === cid) {
+                    catArr.push(items[i]);
+                }
+            }
+
+            return catArr;
+        }
+        //载入属性表单
+        function loadPropForm(cid) {
+            if (cid === 0) { return; }
+            $('#ajaxPic').show();
+
+            $.ajax({
+                url: 'ajax?action=props&cid=' + cid,
+                success: function (data) {
+                    window.setTimeout(function () {
+                        createPropsForm(cid, data);
+                    }, 500);
+                }
+            });
+        }
+        /***************************************类别操作 Start*****************************************/
+
+        /**************************************创建属性表单 Start*******************************************/
+        function createPropsForm(cid, data) {
+            $('#ajaxPic').hide();
+
+            //属性列表
+            var propListObj = $('#prop-list');
+            propListObj.html('');
+            if (data.length == 0) {
+                propListObj.html('暂无属性');
+                return;
+            }
+            var htmlArr = [];
+            for (var i in data) {
+                if (typeof data[i] === 'object') {
+                    var propName = data[i]['Name'];
+                    var propId = parseInt(data[i]['Id']);
+                    var inputId = 'prop_value_' + propId;
+                    htmlArr.push('<li><span class="label-prop-name">' + propName + ':</span>');                    
+                    htmlArr.push('<input type="text" class="input-prop-name" id="' + inputId + '" name="' + inputId + '" ');
+                    //属性赋值
+                    for (var j in _GLOBAL.propItems) {
+                        if (propId === _GLOBAL.propItems[j]['propId']) {
+                            htmlArr.push(' value="' + _GLOBAL.propItems[j]['value'] + '" ');
+                        }
+                    }
+                    htmlArr.push(' /></li>');
+                }
+            }
+            propListObj.html(htmlArr.join(''));
+
+        }
+        /**************************************创建属性表单 End*******************************************/
+    </script>
+}

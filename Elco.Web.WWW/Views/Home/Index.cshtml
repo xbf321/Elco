@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "传感器_ 编码器_继电器自动化产品专业制造商";
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Keywords = "传感器，编码器，继电器，接插件，信号隔离器，MES系统";
+    ViewBag.Description = "公司专注于传感器、过程传感器、编码器、直线位移、系统部件、安全栅、物位计、继电器、数显仪表、连接系统等系列工业自动化控制产品的研发、制造和销售，以精准的市场定位、高度的技术创新和产品品质的完美结合来为广大工业自动化应用者提供市场化、客户化的技术支持、物流支持和MES系统解决方案。";
+}
+
+
+@section header{
+    <link href="/styles/jquery.jslidenews.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/jquery.jslidenews.js" type="text/javascript"></script>
+}
+<div class="elco_Leftbar">
+    <strong>产品快速通道</strong> <span class="box_7"></span>
+    <label>
+        @Html.Action("RenderProductDropDownList", "Product")
+    </label>
+    <span class="box_10"></span>
+    <div class="prodsort_bar">
+            <h2>
+                <strong>产品分类</strong></h2>
+            <div class="product-menu">
+                @Html.Action("RenderProductMenu", "Product")
+            </div>
+        </div>
+</div>
+<div class="elco_Rightbar">
+    <div id="jslidernews" class="lof-slidecontent" style="width: 770px; height: 340px;">
+        <div class="preload">
+            <div>
+            </div>
+        </div>
+         <div  class="button-previous">Previous</div>
+        <!-- MAIN CONTENT -->
+        <div class="main-slider-content" style="width: 770px; height: 340px;">
+            <ul class="sliders-wrap-inner">
+                @foreach (var item in ViewBag.Focus)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">
+                        <img src="@(item.ImageUrl)" alt="@(item.Title)"></a> </li></text>
+                }
+            </ul>
+        </div>
+        <!-- END MAIN CONTENT -->
+        <!-- NAVIGATOR -->
+        <div class="navigator-content">
+            <div class="navigator-wrapper">
+                <ul class="navigator-wrap-inner">
+                    @foreach (var item in ViewBag.Focus)
+                    {
+                        <text>
+                        <li>
+                            <div>
+                                <a href="@(item.Url)" target="_blank" title="@(item.Title)">
+                                    <img src="@(item.Content)" /></a>
+                            </div>
+                        </li>
+                        </text>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!----------------- END OF NAVIGATOR --------------------->
+        <div class="button-next">Next</div>
+    </div>
+    <span class="box_15"></span>
+    <div class="eventNewsMagz_bar">
+        <div class="newsMagz_bar">
+            <h3>
+                <a href="/news">新闻中心</a></h3>
+            @if (ViewBag.NewsCenter.Count > 3)
+            {
+                var first = ViewBag.NewsCenter[0];
+                ViewBag.NewsCenter.RemoveAt(0);
+                <text>
+                <div class="newsMagz_imgIntrod">
+                    <img src="@(first.ImageUrl)" alt="@(first.Title)" />
+                    <p class="newsMagzInfo">
+                        <a href="@(first.Url)" class="gree30" target="@(first.Title)">@(first.Title)</a></p>
+                </div>
+                </text>
+            }
+            <span class="box_5"></span>
+            <ul class="newsMagz_List">
+                @foreach (var item in ViewBag.NewsCenter)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">@(Goodspeed.Common.CharHelper.Truncate(item.Title,23))</a></li></text>
+                }
+            </ul>
+        </div>
+        <div class="newsMagz_bar">
+            <h3>
+                <a href="/channel/134.html">电子刊</a></h3>
+            @if (ViewBag.Issue.Count > 1)
+            {
+                var first = ViewBag.Issue[0];
+                ViewBag.Issue.RemoveAt(0);
+                <text>
+                <div class="newsMagz_imgIntrod">
+                    <img src="@(first.ImageUrl)" alt="@(first.Title)" />
+                    <p class="newsMagzInfo">
+                        <a href="@(first.Url)" class="gree30" target="@(first.Title)">@(first.Title)</a></p>
+                </div>
+                </text>
+            }
+            <span class="box_5"></span>
+            <ul class="newsMagz_List">
+                @foreach (var item in ViewBag.Issue)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">@(Goodspeed.Common.CharHelper.Truncate(item.Title, 23))</a></li></text>
+                }
+            </ul>
+        </div>
+        <div class="Indevent_bar">
+            <h3>
+                <a href="/channel/177.html">活动与公告</a></h3>
+            @foreach (var item in ViewBag.Announcement)
+            {
+                <text>
+				<a href="@(item.Url)" title="@(item.Title)"><img src="@(item.ImageUrl)" alt="@(item.Title)" /></a><p class="newsMagzInfo"><a href="@(item.Url)" title="@(item.Title)">@(item.Title)</a></p> <span class="box_10">
+                </span>
+                @Html.Raw(item.Content)
+                </text>
+            }
+        </div>
+    </div>
+</div>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            //焦点图
+            var buttons = { previous: $('#jslidernews .button-previous'),
+                next: $('#jslidernews .button-next')
+            };
+            $('#jslidernews').lofJSidernews({ interval: 5000,
+                duration: 1200,
+                auto: true,
+                mainWidth: 770,
+                mainHeight: 340,
+                navigatorHeight: 54,
+                navigatorWidth: 120,
+                maxItemDisplay: 4,
+                buttons: buttons
+            });
+        })
+    </script>
+}

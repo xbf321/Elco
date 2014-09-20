@@ -1,0 +1,8 @@
+﻿@{
+    Layout = "../Shared/_CommonLayout.cshtml";
+    
+    var currentCatInfo = ViewBag.CurrentCategoryInfo ?? new Elco.Models.CategoryInfo();
+    ViewBag.Title = currentCatInfo.Name;    
+    Elco.Models.TemplateType templateType = (Elco.Models.TemplateType)Enum.Parse(typeof(Elco.Models.TemplateType), currentCatInfo.TemplateType.ToString());
+}
+@{Html.RenderPartial(string.Format("/Views/Shared/Template/_{0}.cshtml", templateType));}

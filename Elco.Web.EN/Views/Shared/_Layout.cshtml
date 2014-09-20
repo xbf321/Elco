@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="xbf321(at)gmail.com 兴百放" />
+    <meta name="keywords" content="@(ViewBag.Keywords ?? string.Empty)" />
+    <meta name="description" content="@(ViewBag.Description ?? string.Empty)" />
+    <link href="@Url.Content("~/styles/base_en.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            var _GLOBAL = {
+                search: function (obj) {
+                    var keyObj = $('#' + obj);
+                    if (keyObj.length === 0) { return; }
+                    if ($.trim(keyObj.val()) === '') {
+                        keyObj.focus();
+                        return;
+                    }
+                    window.location.href = '/search?key=' + encodeURIComponent(keyObj.val());
+                }
+            };
+    </script>
+    @RenderSection("header", false)
+	    <script type="text/javascript">
+	        var _gaq = _gaq || [];
+	        _gaq.push(['_setAccount', 'UA-32172970-1']);
+	        _gaq.push(['_setDomainName', 'elco-holding.com.cn']);
+	        _gaq.push(['_trackPageview']);
+
+	        (function () {
+	            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	        })();
+</script>
+</head>
+<body>
+    <div class="container">
+        <!---header star --->
+        <div id="header_bar">
+            <h1>
+                <img src="/images/top_img.jpg" alt="ELCO Industry Automation" /><a href="/"><img src="/images/logo.jpg"
+                    alt="ELCO Industry Automation" /></a></h1>
+            <div id="menuSearch_bar">
+                <ul class="menuList">
+                    @foreach (var item in Elco.Services.CategoryService.ListByParentId(0, true, false))
+                    {
+                        <li id="menu_@(item.Id)"><a href="@(item.Url)" title="@(item.Name)">@(item.Name)</a></li>
+                    }
+                </ul>
+                <div class="Search_bar">
+                    <input type="text" name="txtKey" id="txtKey" class="searchInput" value="@(Request.QueryString["key"])"/>
+                    <img src="/images/searchBtn.jpg" alt="Search" class="searchBtn" onclick="_GLOBAL.search('txtKey');" /></div>
+            </div>
+			 <span class="english_btn"><a href="http://www.elco-holding.com.cn/" target="_blank">
+            <img src="/images/zhongwen_ico.jpg" alt="Chinese" /></a></span>
+        </div>
+        <span class="clear"></span>
+        <!---header end --->
+        <!---content star --->
+        <div class="wrapper">
+            @RenderBody()
+            <span class="clear"></span>
+        </div>
+        <!---content end --->
+        <!---footer star --->
+        <div id="footer_bar">
+            <div class="footer_Leftbar">
+            </div>
+            <div class="footer_Rightbar">
+                All rights reserved: Elco-holding.com  Copyright@2009-2013<script language="javascript" src="http://count22.51yes.com/click.aspx?id=221415788&logo=1" charset="gb2312"></script> </div>
+            <span class="box_5"></span>
+        </div>
+    </div>
+    <!---footer end --->
+    <script type="text/javascript">
+        $(function () {
+            //设置顶部导航选中状态
+            $('.menuList li').each(function () {
+                var menuId = "menu_" + _GLOBAL.rootId;
+                $(this).removeClass("on");
+                if (menuId === this.id) {
+                    $(this).addClass('on');
+                }
+            });
+            $('#ddlFriendLink').change(function () {
+                var url = $.trim(this.value);
+                if (url === '' || url === '0') {
+                    return;
+                }
+                window.location.href = url;
+            });
+        })
+    </script>
+    @RenderSection("footer", false)
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿@model Elco.Models.FeedbackInfo
+@{
+    ViewBag.Title = "Feedback";
+    Layout = "../Shared/_CommonLayout.cshtml"; 
+}
+
+@section header{
+    <script src="/scripts/jquery.validate.min.js" type="text/javascript"></script>
+}
+<form method="post" id="feedbackForm">
+   @if(ViewBag.Status != null){
+       if (ViewBag.Status)
+       {
+         <text><div class="success">提交成功！</div></text>
+       }
+       else { 
+        <text><div class="error">提交失败，请联系管理员！</div></text>
+       }
+   }
+   @Html.ValidationSummary()
+<ul class="elco_Complaintsbar">
+    <li>
+        <p class="name">
+            <span class="tips">*</span>联 系 人：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Contact, new { @class="required",maxlength = 10})
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            &nbsp;联系地址：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Address, new { @class = "addrews", maxlength = 50 })
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            <span class="tips">*</span>邮箱地址：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "required email", maxlength = 50 })
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            <span class="tips">*</span>联系电话：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Phone, new { @class = "required", maxlength = 15 })
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            &nbsp;传真号码：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Fax, new { maxlength = 15 })
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            <span class="tips">*</span>投诉(建议)标题：</p>
+        <label>
+            @Html.TextBoxFor(m => m.Title, new { @class = "required biaoti", maxlength = 20 })
+        </label>
+    </li>
+    <li>
+        <p class="name">
+            <span class="tips">*</span>投诉(建议)内容：</p>
+        <label>
+            @Html.TextAreaFor(m => m.Content, new { @class = "required jianyi"})
+        </label>
+    </li>
+    <li class="btn">
+        <input type="submit" value="Submit" />
+    </li>
+</ul>
+
+</form>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#feedbackForm').validate();
+        });
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "类别列表";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>类别列表</legend>
+    <table width="100%">
+        <tr>
+            <td colspan="2"><a href="create" class="btn-add">添加分类</a></td>
+        </tr>
+        <tr>
+            <td id="catTree" colspan="2">@Html.Raw(ViewBag.CatHtml)</td>
+        </tr>
+    </table>
+</fieldset>
+@section footer{
+    <script type="text/javascript">        
+        function operate(id, action) {
+            if (window.confirm('确认操作？')) {
+                window.location.href = 'operate?id='+id+'&action='+action;
+            }
+        }
+        $(function () {
+            $("#treeview").treeview({
+                collapsed: false,
+                animated: "medium",
+                control: "#sidetreecontrol",
+                persist: "location"
+            });
+        })
+    </script>
+}

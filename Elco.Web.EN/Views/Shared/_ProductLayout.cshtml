@@ -1,0 +1,55 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+
+    /*
+     * 此模板需要以下变量
+     * RootCategoryInfo 
+     *      用于Banner图以及左边子导航
+     *      如果RootCategoryInfo.Id == 0 说明是自定义功能，左边子导航输出默认的RootCategoryInfo.Name即可，反之，从数据库中获取
+     * CurrentCategoryInfo
+     *      当左边子导航从数据库中获取的时候，如果选择的子导航中的分类，则左边子导航默认是选择状态
+     */
+    var rootCategoryInfo = ViewBag.RootCategoryInfo ?? new Elco.Models.CategoryInfo()
+    {
+        Id = 0,
+        Name = "Custom",
+        BannerAdImageUrl = "/images/custom_banner.jpg"
+    };
+    var currentCategoryInfo = ViewBag.CurrentCategoryInfo ?? new Elco.Models.CategoryInfo() { Id = 0, Name = "Product Center" };
+   
+}
+@section header{
+    <script type="text/javascript">
+        _GLOBAL.rootId = @(rootCategoryInfo.Id);
+    </script>
+    @RenderSection("header", false)
+}
+<p>
+    <img src="@(rootCategoryInfo.BannerAdImageUrl)" alt="@(rootCategoryInfo.Name)" width="980" height="98" /></p>
+<div class="elco_Leftbar" style="margin:0 10px;width:190px;">
+    <strong>Fast channel</strong> <span class="box_7"></span>
+    <label>
+        @Html.Action("RenderProductDropDownList", "Product", new { selectedValue = Controleng.Common.CECRequest.GetQueryInt("catId",0)})
+    </label>
+    <span class="box_10"></span>
+    <div id="prodsortBg_Bar">
+        <div class="prodsort_bar">
+            <h2>
+                <strong>Product Catalogues</strong></h2>
+                <div class="product-menu">
+                    @Html.Action("RenderProductMenu","Product")
+                </div>
+            
+        </div>
+    </div>
+</div>
+<div class="elco_Rightbar">
+    <div class="channel_title01">
+        @Html.Action("RenderNav", "Home", new { currentCategoryInfo = currentCategoryInfo,linkFormat="/product/list?catId={0}" })
+    </div>
+    <span class="box_10"></span>
+    <div class="main-content">@RenderBody()</div>
+</div>
+@section footer{
+    @RenderSection("footer", false)
+}

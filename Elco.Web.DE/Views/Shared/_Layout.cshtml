@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="xbf321(at)gmail.com 兴百放" />
+    <meta name="keywords" content="@(ViewBag.Keywords ?? string.Empty)" />
+    <meta name="description" content="@(ViewBag.Description ?? string.Empty)" />
+    <link href="@Url.Content("~/styles/base.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            var _GLOBAL = {
+                search: function (obj) {
+                    var keyObj = $('#' + obj);
+                    if (keyObj.length === 0) { return; }
+                    if ($.trim(keyObj.val()) === '') {
+                        keyObj.focus();
+                        return;
+                    }
+                    window.location.href = '/search?key=' + encodeURIComponent(keyObj.val());
+                }
+            };
+    </script>
+    @RenderSection("header", false)
+</head>
+<body>
+    <div class="container">
+        <!---header star --->
+        <div id="header_bar">
+            <h1>
+                <img src="/images/top_img.jpg" alt="ELCO Industry Automation" /><a href="/"><img src="/images/logo.jpg"
+                    alt="ELCO Industry Automation" /></a></h1>
+            <div id="menuSearch_bar">
+                <ul class="menuList">
+                    @foreach (var item in Elco.Services.CategoryService.ListByParentId(0, true, false))
+                    {
+                        <li id="menu_@(item.Id)"><a href="@(item.Url)" title="@(item.Name)">@(item.Name)</a></li>
+                    }
+                </ul>
+                <div class="Search_bar">
+                    <input type="text" name="txtKey" id="txtKey" class="searchInput" value="@(Request.QueryString["key"])"/>
+                    <img src="/images/searchBtn.jpg" alt="Search" class="searchBtn" onclick="_GLOBAL.search('txtKey');" /></div>
+            </div>
+        </div>
+        <span class="clear"></span>
+        <!---header end --->
+        <!---content star --->
+        <div class="wrapper">
+            @RenderBody()
+            <span class="clear"></span>
+        </div>
+        <!---content end --->
+        <!---footer star --->
+        <div id="footer_bar">
+            <div class="footer_Leftbar">
+            </div>
+            <div class="footer_Rightbar">
+                All rights reserved: Elco-automation.de  Copyright@2009-@(DateTime.Now.Year)</div>
+            <span class="box_5"></span>
+        </div>
+    </div>
+    <!---footer end --->
+    <script type="text/javascript">
+        $(function () {
+            //设置顶部导航选中状态
+            $('.menuList li').each(function () {
+                var menuId = "menu_" + _GLOBAL.rootId;
+                $(this).removeClass("on");
+                if (menuId === this.id) {
+                    $(this).addClass('on');
+                }
+            });
+            $('#ddlFriendLink').change(function () {
+                var url = $.trim(this.value);
+                if (url === '' || url === '0') {
+                    return;
+                }
+                window.location.href = url;
+            });
+        })
+    </script>
+    @RenderSection("footer", false)
+</body>
+</html>

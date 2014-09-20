@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "下载日志";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<fieldset>
+    <legend>下载日志</legend>
+    <table>
+        <tr>
+            <td><a href="list" class="btn-add">返回下载列表</a></td>
+        </tr>
+    </table>
+    <table width="100%" class="tblist">
+        <tr>
+            <th>
+                附件名称
+            </th>
+            <th width="10%">下载用户</th>
+            <th width="10%">下载次数</th>
+            <th width="15%">下载时间</th>
+        </tr>
+        @foreach (var item in ViewBag.List)
+        {
+            <text>
+            <tr>
+                <td>@(item.AttachTitle)</td>
+                <td class="tdcenter">@(item.UserName)</td>
+                 <td class="tdcenter">@(item.DownloadCount)</td>
+                <td class="tdcenter">@(item.LastDownloadDateTime.ToString("yyyy-MM-dd"))</td>
+            </tr>
+            </text>
+        }
+    </table>
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" }))
+</fieldset>
+

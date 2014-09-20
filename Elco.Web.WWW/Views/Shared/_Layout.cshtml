@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>宜科（天津）电子有限公司 - @ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="xbf321(at)gmail.com 兴百放" />
+    <meta name="keywords" content="@(ViewBag.Keywords ?? string.Empty)" />
+    <meta name="description" content="@(ViewBag.Description ?? string.Empty)" />
+    <link href="@Url.Content("~/styles/base.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var _GLOBAL = {
+            search: function (obj) {
+                var keyObj = $('#' + obj);
+                if (keyObj.length === 0) { return; }
+                if ($.trim(keyObj.val()) === '') {
+                    keyObj.focus();
+                    return;
+                }
+                window.location.href = '/search?key='+encodeURIComponent(keyObj.val());
+            }
+        };
+    </script>
+    @RenderSection("header", false)
+	    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32172970-1']);
+        _gaq.push(['_setDomainName', 'elco-holding.com.cn']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+</script>
+</head>
+<body>
+<div class="container">
+    <!---header star --->
+    <div id="header_bar">
+        <h1>
+            <img src="/images/top_img.jpg" alt="传感智慧" /><a href="/"><img src="/images/logo.jpg"
+                alt="宜科" /></a></h1>
+        <div id="menuSearch_bar">
+            <ul class="menuList">
+                @foreach (var item in Elco.Services.CategoryService.ListByParentId(0, true, false))
+                {
+                    <li id="menu_@(item.Id)"><a href="@(item.Url)" title="@(item.Name)">@(item.Name)</a></li>
+                }
+            </ul>
+            <div class="Search_bar">
+                <input type="text" name="txtKey" id="txtKey" class="searchInput" value="@(Request.QueryString["key"])"/>
+                <img src="/images/searchBtn.jpg" alt="搜索" class="searchBtn" onclick="_GLOBAL.search('txtKey');" /></div>
+        </div>
+		
+        <span class="english_btn"><a href="http://www.elco-holding.com/" target="_blank">
+            <img src="/images/english_ico.jpg" alt="english版" /></a></span>
+    </div>
+    <span class="clear"></span>
+    <!---header end --->
+    <!---content star --->
+    <div class="wrapper">
+        @RenderBody()
+        <span class="clear"></span>
+    </div>
+    <!---content end --->
+    <!---footer star --->
+    <div id="footer_bar">
+        <div class="footer_Leftbar">
+            <p>
+                <a href="/channel/about.html">关于我们</a> | <a href="/feedback">
+                    投诉建议</a> | <a href="/job">招贤纳士</a> | <a href="/channel/sell.html">销售网络</a> |
+                <a href="/channel/eletter.html">电子刊</a> | <a href="/channel/auth.html">相关认证</a></p>
+            <span class="box_7"></span>
+            <p>
+                链接到
+                <label>
+                    <select name="ddlFriendLink" id="ddlFriendLink">
+                        <option value="">==请选择==</option>
+                        <option value="http://www.gongkong.com">工控网</option>
+                        <option value="http://www.iianews.com">IIA news</option>
+                        <option value="http://www.mirautomation.com">米尔自动化</option>
+                        <option value="http://www.cechina.cn">控制工程网</option>
+                        <option value="http://mma.vogel.com.cn/s_index.html">弗戈工业在线</option>
+                        <option value="http://www.scitechautomation.com">科技自动化联盟</option>
+                    </select>
+                </label>
+            </p>
+        </div>
+        <div class="footer_Rightbar">
+            版权所有：宜科（天津）电子有限公司 copyright@2009-@(DateTime.Now.Year) 津ICP备09001453号<script language="javascript" src="http://count2.51yes.com/click.aspx?id=24220562" charset="gb2312"></script>
+</div>
+        <span class="box_5"></span>
+    </div>
+	</div>
+    <!---footer end --->
+    <script type="text/javascript">
+        $(function () {
+            //设置顶部导航选中状态
+            $('.menuList li').each(function () {
+                var menuId = "menu_" + _GLOBAL.rootId;
+                $(this).removeClass("on");
+                if (menuId === this.id) {
+                    $(this).addClass('on');
+                }
+            });
+            $('#ddlFriendLink').change(function () {
+                var url = $.trim(this.value);
+                if (url === '' || url === '0') {
+                    return;
+                }
+                window.location.href = url;
+            });
+        })
+    </script>
+    @RenderSection("footer", false)
+</body>
+</html>

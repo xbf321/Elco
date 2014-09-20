@@ -1,0 +1,117 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script src="@Url.Content("~/scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <style type="text/css">
+	    img{border:0;margn:0;padding:0;}
+        body{padding:0;margin:0;}
+        .login_main{font-size:12px;margin:0 auto;}
+        .login_top{background:url(/Images/top_ding.jpg);width:335px;height:70px;font-size:14px;color:#508a06;font-weight:600;}
+        .login_center{background:url(/Images/top_center.jpg);width:335px;height:120px;}
+        .login_bottom{background:url(/Images/top_di.jpg);width:335px;height:29px;}
+		.link-login{color:#508a06;text-decoration:none;font-family: 宋体;}
+		.btn-register{background:url(/Images/denglu.jpg);width:50px;height:23px;display:block;border:0;margin-right:5px;}
+		.btn-close{background:url(/Images/anniu_pic.gif);width:26px;height:24px;display:block;border:0;margin-top:6px;_margin-top:6px;}
+        div.error{font-size:14px;font-weight:700;color:red;border:1px solid red;line-height:22px;background-color:#fff;margin:5px;}
+    </style>
+</head>
+<body>
+    <div class="login_main">
+        <div class="login_top">
+            <table width="323" height="69" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td height="36" colspan="2" align="right" valign="middle">
+                        <a href="###" onclick="window.parent.closeIframeDialog();" class="btn-close"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="307" align="right">
+                        <a href="###" onclick="window.parent.location.href='/passport/register'" class="link-login">LOGIN用户登录</a>
+                    </td>
+                    <td width="16" align="center">
+                        <img src="/Images/sanjiao.jpg">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="login_center">
+            <form method="post" id="miniLoginForm">
+            @if (ViewBag.Status != null)
+            {
+                if (ViewBag.Status == "NotLogined")
+                {
+                <text>
+                    <script type="text/javascript">
+                        alert('用户名或密码错误，请重试！');
+                    </script></text>
+                }
+                if (ViewBag.Status == "OK")
+                {
+                <text>
+                <script type="text/javascript">
+                    window.parent.window.location.reload();
+                    window.parent.$('.ui-dialog').dialog('close');
+                    window.parent.$('.ui-dialog').remove();                
+                </script>
+                </text>
+                }
+            }
+            @Html.Hidden("ReturnUrl")
+            <table width="330" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="112" align="right" valign="bottom">
+                        <strong>用户名：</strong>
+                    </td>
+                    <td width="218" height="43" valign="bottom">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "required" })
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <strong>密 码：</strong>
+                    </td>
+                    <td height="40">
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "required" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table width="320" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td height="35" align="right">
+                                    <input type="submit" value="" class="btn-register" />
+                                </td>
+                                <td>
+                                    <a href="###" onclick="window.parent.location.href='/passport/register'" >
+                                        <img src="/Images/zhuce.jpg" style="margin-top:2px;"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div>
+        <div class="login_bottom">
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#miniLoginForm').validate({
+                messages: {
+                    UserName: '必填',
+                    UserPassword: '必填'
+                }
+            });
+        })
+    </script>
+</body>
+</html>

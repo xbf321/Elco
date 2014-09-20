@@ -1,0 +1,13 @@
+﻿@{
+    var articleList = ViewBag.ArticleList;
+}
+<div class="news_list">
+    <ul class="news_list_item">
+        @(articleList.Count == 0 ? "暂无信息" : string.Empty)
+        @foreach (var item in articleList)
+        {
+           <text><li><span class="newsdate">@(item.PublishDateTime.ToString("yyyy-MM-dd"))</span> <a href="@(item.Url)" title="@(item.Title)">@(item.Title)</a></li></text>
+        }
+    </ul>
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" }))
+</div>

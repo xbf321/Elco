@@ -1,0 +1,80 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    ViewBag.Title = "注册成功";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<table width="100%" border="0" cellspacing="1" cellpadding="0" style="font-size: 12px;">
+    <tr>
+        <td height="400" valign="top">
+            <table width="95%" border="0" align="center" cellpadding="1" cellspacing="1" bgcolor="#CCCCCC">
+                <tr bgcolor="#FFFFFF">
+                    <td height="35" colspan="2">
+                        &nbsp;恭喜注册成功！您的注册信息为：
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        用 户 名：
+                    </td>
+                    <td height="35">
+                        @Model.UserName
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        密码：
+                    </td>
+                    <td height="35">
+                        @Model.UserPassword
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        姓名：
+                    </td>
+                    <td height="35">
+                        @Model.RealName
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        职位：
+                    </td>
+                    <td>
+                        @Model.Position
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        公司名称：
+                    </td>
+                    <td>
+                        @Model.Company
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td height="35" align="center">
+                        Email：
+                    </td>
+                    <td>
+                        @Model.Email
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td width="16%" height="35" align="center">
+                        电话：
+                    </td>
+                    <td>
+                        @Model.Phone
+                    </td>
+                </tr>
+                <tr bgcolor="#FFFFFF">
+                    <td height="57" colspan="2" align="center" style="line-height: 20px;">
+                        请记住您的账号和密码！<br>
+                        <a href="/">返回首页</a> 我要<a href="/passport/login">登录</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

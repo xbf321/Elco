@@ -1,0 +1,37 @@
+﻿@model Elco.Models.ArticleInfo
+@{
+    Layout = "../Shared/_CommonLayout.cshtml";
+
+    ViewBag.Title = Model.Title;
+    
+    //关键词
+    ViewBag.Keywords = Model.Keywords;
+
+    bool isPublished = true;
+    //检查此文章是否发布
+    //如果URL带有preview标示，则不管发布不发布都显示，否则只显示发布的信息
+    if(Model.Id>0 && Model.IsPublished == false){
+        //则检查URL是否有preview标示
+        //如果没有，则提示用户无此信息
+        if(!Request.Url.ToString().Contains("preview")){
+            isPublished = false;
+        }
+    }
+}
+@if (isPublished)
+{
+<div class="news_detail">
+    <h2 class="news_detail_title">
+        @Model.Title</h2>
+    <h2 class="news_detail_subtitle">@Model.SubTitle</h2>
+    <p class="news_detail_date">
+        Publish:@(Model.PublishDateTime.ToString("yyyy-MM-dd")) Views：@(Model.ViewCount)</p>
+    <span class="box_15"></span>
+    <div class="news_detail_content">
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+}
+else { 
+    <text>此文章目前还未发布！</text>
+}

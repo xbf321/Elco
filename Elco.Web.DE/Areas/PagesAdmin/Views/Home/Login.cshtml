@@ -1,0 +1,56 @@
+﻿@model Elco.Models.MemberInfo
+@{
+    ViewBag.Title = "宜科后台登陆";
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section header{
+    <style type="text/css">
+        .login-wrapper{margin:0 auto;width:540px;padding-top:100px;}
+        .login-title{height:66px;}
+        .login-main{ background:url("/images/pagesadmin/login_mid.gif") repeat scroll 0 0 transparent; height:240px;}
+        .login-main-form{padding:20px 30px 0 100px;}
+        .login-bottom{height:21px;}
+        .login-bottom-left{ float:left;width:22px;}
+        .login-bottom-mid{float:left;width:497px; background:url("/images/pagesadmin/login_btm_mid.gif") repeat-x 0 0 transparent;}
+        .login-bottom-right{float:right;width:21px;}
+    </style>
+}
+<div class="login-wrapper">
+    <div class="login-title">
+        <img src="/images/pagesadmin/login_title.gif" />
+    </div>
+    <div class="login-main">
+        <div class="login-main-form">
+        <form method="post" action="">
+            @Html.ValidationSummary()
+            <table>
+                <tr>
+                    <th align="right">用户名：</th>
+                    <td>@Html.TextBoxFor(m=>m.UserName)</td>
+                </tr>
+                <tr>
+                    <th align="right">密码：</th>
+                    <td>@Html.PasswordFor(m=>m.UserPassword)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="登录" /></td>
+                </tr>
+            </table>    
+         </form>
+         </div>
+    </div>
+    <div class="login-bottom">
+        <div class="login-bottom-left"><img src="/images/pagesadmin/login_btm_left.gif" /></div>
+        <div class="login-bottom-mid"><img src="/images/pagesadmin/login_btm_mid.gif" /></div>
+        <div class="login-bottom-right"><img src="/images/pagesadmin/login_btm_right.gif" /></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    if (top.location != this.location) {
+        top.location.href = "/pagesadmin/home/login";
+    }
+</script>
+

@@ -1,0 +1,296 @@
+﻿@{
+    ViewBag.Title = "产品属性管理";
+    Layout = "../Shared/_Layout.cshtml";   
+}
+@section header{
+    <style type="text/css">
+        .name{float:left;padding-top:5px; display:block;}
+        .cat-wrapper{float:left;padding-left:5px;}
+        .mb10{ margin-bottom:10px;}
+        select{width:150px;}
+    </style>
+    <script type="text/javascript">
+        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_EN);
+        _GLOBAL.catItems = @Html.Action("RenderCatJSON", "Product");
+    </script>
+}
+<fieldset>
+    <legend>产品属性管理</legend>
+    <input type="hidden" value="0" id="hfLeafCid" />
+    <input type="hidden" value="0" id="hfPropId"/>
+    <div class="cat-nav-wrapper">
+        <div class="name"><b>产品分类：</b></div>
+        <div id="cid_999999_span" style="float: left; padding: 0px 1px;" class="cat-wrapper"></div>        
+        <div id="ajaxPic" style="display:none;float:left;margin:2px 0px 0px 10px"><img src="/images/ajax.gif"  alt="正在载入，请稍等。。"/>正在载入，请稍等。。</div>
+    </div>
+    <div class="clear"></div>
+    <div id="prop-form" style="margin-top:10px;" class="none">
+        <div class="mb10"><a href="javascript:void(0);" class="btn-add" id="btn-show-dialog">添加属性名</a>&nbsp;&nbsp;<a href="javascript:void(0);" class="btn-add" id="btn-batch-show-dialog">批量添加</a></div>
+        <div class="clear"></div>
+        <div id="prop-form-table" style="margin-top:10px;"></div>
+    </div>
+    <div id="add-prop-diaglog" class="none">        
+        <table>
+            <tr>
+                <th>属性名称：</th>
+                <td><input type="text" id="txtName" class="n"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" id="btn-add" value="保存" /></td>
+            </tr>
+        </table>
+    </div>
+    <div id="add-batch-prop-dialog" class="none">
+        <table>
+            <tr>
+                <th valign="top">属性名：</th>
+                <td><textarea id="txtBatchName" rows="10" cols="30"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><font color="red">（一行一个属性名称）</font></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="保存" id="btn-batch-add" /></td>
+            </tr>
+        </table>
+    </div>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        var addDialogObj = $('#add-prop-diaglog');
+        var addBatchDialogObj = $('#add-batch-prop-dialog');
+        var propFormObj = $('#prop-form');
+
+        /***************************************Document Ready****************************************/
+        $(function () {
+            createCatSelect(_GLOBAL.rootId, 999999, getChildCats(_GLOBAL.rootId));
+            //显示单个属性对话框
+            $('#btn-show-dialog').click(function () {
+                showPropDialog();
+            });
+            //显示批量对话框
+            $('#btn-batch-show-dialog').click(function () {
+                addBatchDialogObj.dialog({
+                    title: '添加批量属性',
+                    open: function () {
+                        $(this).find('textarea').text('');
+                    },
+                    width: '350px',
+                    close: function () {
+                        $(this).dialog('destroy');
+                    }
+                });
+            });
+
+            $('#btn-add').click(saveProp_Click);
+            $('#btn-batch-add').click(saveBatchProp_Click);
+        });
+        /***************************************Document Ready****************************************/
+
+        /************************************属性操作 Start******************************************/
+        function showPropDialog(propName) {
+            propName = propName || '';
+            addDialogObj.dialog({
+                title: '属性对话框',
+                open: function () {
+                    $(this).find('.n').val(propName);
+                },
+                close: function () {
+                    $(this).dialog("destroy");
+                }
+            });
+        }
+        //保存
+        function saveProp_Click() {
+            var txtNameObj = $('#txtName');
+            if ($.trim(txtNameObj.val()) === '') {
+                alert('请输入属性名！');
+                txtNameObj.focus();
+                return;
+            }
+            var leafCid = parseInt($('#hfLeafCid').val());
+            var propId = parseInt($('#hfPropId').val());
+            var param = jQuery.param({leafCid:leafCid,propId:propId,name:txtNameObj.val()});
+            $.ajax({
+                type: 'POST',
+                url: 'prop',
+                data: param,
+                success: function (data) {
+                    if (data.error) {
+                        alert(data.msg);
+                    } else {
+                        alert('保存成功！');
+                    }
+                    loadProps(leafCid);
+                    addDialogObj.dialog('close');
+                }
+            });
+        }
+        //批量保存
+        function saveBatchProp_Click() {
+            var txtNameObj = $('#txtBatchName');
+            if ($.trim(txtNameObj.val()) === '') {
+                alert('请输入属性名！');
+                txtNameObj.focus();
+                return;
+            }
+            var leafCid = parseInt($('#hfLeafCid').val());
+            var param = jQuery.param({ leafCid: leafCid, name: txtNameObj.val(),action:'addbatchprops' });
+            $.ajax({
+                type: 'POST',
+                url: 'prop',
+                data: param,
+                success: function (data) {
+                    if (data.error) {
+                        alert(data.msg);
+                    } else {
+                        alert('保存成功！');
+                    }
+                    loadProps(leafCid);
+                    addBatchDialogObj.dialog('close');
+                }
+            });
+        }
+        //编辑
+        function editProp_Click(propId) {
+            //获得属性名称
+            var propName = $('#prop_' + propId).html();
+            //设置隐藏域中propId的Value，说明是编辑操作
+            $('#hfPropId').val(propId);
+            //打开对话框
+            showPropDialog(propName);
+        }
+        //删除操作
+        function deleteProp_Click(propId) {
+            if (window.confirm('确定要删除吗？\r\n\r\n请谨慎操作！')) {
+                var leafCid = parseInt($('#hfLeafCid').val());
+                $.ajax({
+                    type: 'POST',
+                    url: 'prop',
+                    data: jQuery.param({ leafCid: leafCid, propId: propId, action: 'deleteprop' }),
+                    success: function (data) {
+                        if (data.error) {
+                            alert(data.msg);
+                        } else {
+                            alert('删除成功！');
+                        }
+                        //重新载入属性列表
+                        loadProps(leafCid);
+                    }
+                });
+            }
+        }
+        /***************************************属性操作 End***************************************/
+
+        /***************************************类别操作 Start*****************************************/
+        //创建类目
+        function createCatSelect(cid, pid, catItems) {
+            var sel = document.createElement('SELECT');
+            sel.setAttribute('name', 'cid_' + cid);
+            sel.setAttribute('id', 'cid_' + cid);
+            var op = document.createElement('OPTION');
+            op.setAttribute('value', '0');
+            op.innerHTML = '==请选择==';
+            sel.appendChild(op);
+
+            for (var i in catItems) {
+                var option = document.createElement('OPTION');
+                option.innerHTML = catItems[i]['name'];
+                option.setAttribute('value', catItems[i]['id']);
+                sel.appendChild(option);
+            }
+
+
+
+            //追加SELECT容器
+            var selDiv = document.createElement('div');
+            selDiv.style.cssText = 'float:left;padding:0px 2px';
+            selDiv.appendChild(sel);
+            document.getElementById('cid_' + pid + '_span').appendChild(selDiv);
+            document.getElementById('cid_' + cid).onchange = function () { childCidList_Change(this, cid); };
+
+
+            var cidDiv = document.createElement('div');
+            cidDiv.id = 'cid_' + cid + '_span';
+            cidDiv.style.cssText = 'float:left;padding:0px 2px';
+
+            //向父容器中追加栏目
+            document.getElementById('cid_' + pid + '_span').appendChild(cidDiv);
+
+        }
+        //子类目监听函数
+        function childCidList_Change(obj, pid) {
+            var cid = parseInt($(obj).val());
+            $('#' + obj.id + '_span').html('');
+            propFormObj.hide();  //属性表单隐藏
+            //根据cid获得子类
+            var catArr = getChildCats(cid);
+
+            if (catArr.length > 0) {
+                createCatSelect(cid, pid, catArr);
+            } else {
+                //说明是叶子节点
+                //设置隐藏域
+                $('#hfLeafCid').val(cid);
+                loadProps(cid);
+            }
+        }
+        //获取子类别
+        function getChildCats(cid) {
+            var i = 0, catArr = [];
+            var items = _GLOBAL.catItems;
+            for (i in items) {
+                var pid = parseInt(items[i]['pid']);
+                if (pid === cid) {
+                    catArr.push(items[i]);
+                }
+            }
+            return catArr;
+        }
+        function loadProps(cid) {
+            if(cid === 0){return;}
+            $('#ajaxPic').show();
+            
+            $.ajax({
+                url: 'ajax?action=props&cid=' + cid,
+                success: function (data) {
+                    window.setTimeout(function () {
+                        createPropsForm(cid,data);
+                    }, 500);
+                }
+            });
+
+        }
+        /***************************************类别操作 Start*****************************************/
+
+        /****************************************创建属性列表表单 Start********************************/
+        //创建属性表格
+        function createPropsForm(cid, data) {
+            $('#ajaxPic').hide();
+            propFormObj.show();
+
+            var tableObj = $('#prop-form-table');
+            tableObj.html('');   
+     
+            
+            if (data.length === 0) {
+                tableObj.html('无属性列表');
+                return;
+            }
+            var htmlArr = [];
+            htmlArr.push('<table class="tblist" width="350px"><tr><th>属性名称</th><th width="30%">操作</th></tr>');
+            for (var i in data) {
+                var id = data[i]['Id'];
+                var name = data[i]['Name'];
+                htmlArr.push('<tr><td id="prop_'+id+'">' + name + '</td><td><a href="javascript:void(0);" onclick="editProp_Click(' + id + ');">编辑</a>&nbsp;|&nbsp;<a href="javascript:void(0);" onclick="deleteProp_Click('+id+');">删除</a></td></tr>');
+            }
+            htmlArr.push('</table>');
+            tableObj.html(htmlArr.join(''));
+        }
+        /****************************************创建属性列表表单 End********************************/
+    </script>
+}
+

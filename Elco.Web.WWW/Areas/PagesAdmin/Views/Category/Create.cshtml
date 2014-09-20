@@ -1,0 +1,163 @@
+﻿@model  Elco.Models.CategoryInfo
+@{
+    ViewBag.Title = "分类管理";
+    Layout = "../Shared/_Layout.cshtml";
+    bool isAdd = Controleng.Common.CECRequest.GetQueryInt("id", 0) > 0 ? false : true;
+
+    int catId = Controleng.Common.CECRequest.GetQueryInt("catId",0);
+    if(catId>0){
+        Model.ParentId = catId;
+    }
+    
+    //模板列表
+    System.Data.DataTable templateTypeList = Elco.Common.EnumHelper.EnumListTable(typeof(Elco.Models.TemplateType));
+
+}
+<fieldset>
+    <legend>@(isAdd ? "添加" : "编辑")分类</legend>
+    <form method="post">
+    @Html.ValidationSummary()
+    @if (ViewBag.Msg != null)
+    {
+        <div class="success">@Html.Raw(ViewBag.Msg)</div>
+    } 
+    <table width="100%" align="left">
+        <tr>
+            <th align="right" width="50px">
+                分类：
+            </th>
+            <td>@Html.Action("RenderCategoryDropdown", "Category", new { name = "ddlCat", selectedValue = Model.ParentId })&nbsp;&nbsp;<a href="list">返回列表</a>
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                名称：
+            </th>
+            <td>@Html.TextBoxFor(m => m.Name)
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="top">
+                描述：
+            </th>
+            <td>
+                @Html.TextAreaFor(m => m.Introduction, new { style = "width:100%;" })
+            </td>
+        </tr>
+        <tr>
+            <th align="right">
+                模板：
+            </th>
+            <td>
+                <select id="TemplateType" name="TemplateType">
+                    @if (templateTypeList != null && templateTypeList.Rows.Count > 0)
+                    {
+                        foreach(System.Data.DataRow dr in templateTypeList.Rows){
+                            <text><option value="@(Convert.ToInt32(dr[1]).ToString())" @Html.Raw(Convert.ToInt32(dr[1]) == Model.TemplateType ? "selected=\"selected\"" : "")>@(dr[0].ToString())</option></text>
+                        }
+                    }                    
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th align="right" valign="top">
+                属性：
+            </th>
+            <td>
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">排序</a></li>
+                        <li><a href="#tabs-2">英文别名</a></li>
+                        <li><a href="#tabs-3">快速链接</a></li>
+                        <li><a href="#tabs-4">类别图片</a></li>
+                        <li><a href="#tabs-5">Banner图片</a></li>
+                        <li><a href="#tabs-6">其他</a></li>
+                    </ul>
+                    <div id="tabs-1">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    排序：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Sort)<span class="tip">数值越小，位置越靠前</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-2">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    英文别名：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Alias)<span class="tip">别名不能出现“/”或空格，如果有多个单词，用“-”隔开</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-3">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    快速链接：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.LinkUrl, new { style = "width:300px" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-4">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    类别图片：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-5">
+                        <table>
+                            <tr>
+                                <th align="right">
+                                    Banner图片：
+                                </th>
+                                <td>
+                                    @Html.TextBoxFor(m => m.BannerAdImageUrl, new { style = "width:300px" })<span class="tip">只针对根分类有用</span><a
+                                        href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=BannerAdImageUrl',400,100,200);">上传图片</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="tabs-6">
+                        @Html.CheckBoxFor(m => m.IsEnabled)是否启用（<font color="red">如果禁用，则在前台不显示</font>）<br />
+                @Html.CheckBoxFor(m => m.IsDeleted)是否删除（<font color="red">逻辑删除，可以还原</font>）<br />
+                @Html.CheckBoxFor(m => m.IsShowFirstChildNode)是否显示第一个子节点
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+               <input type="submit" value="@(isAdd ? "增加" : "更新")" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</fieldset>
+@section footer{
+    <script type="text/javascript">
+        $(function () {
+            $('#tabs').tabs();
+            //设置编辑器
+            _GLOBAL.initEditor('Introduction', null, 250);
+        });
+    </script>
+}
