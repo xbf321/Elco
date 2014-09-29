@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "下载中心";
-    Layout = "../Shared/_DownloadLayout.cshtml";
+    Layout = "/Views/Shared/_DownloadLayout.cshtml";
     bool isLogin = Elco.ElcoHttpContext.Current.IsLogin;
 }
 @section header{
@@ -53,11 +53,7 @@
                 <strong>上传时间：</strong>@(item.CreateDateTime.ToString("yyyy-MM-dd"))
                 <br />
                 <strong>下载：</strong>
-                @if (isLogin) { 
-                    <text><a href="/download/track?guid=@(item.GUID)" target="_blank" title="@(item.Title)"><img src="/images/download_ico.jpg" width="19" height="18" align="absmiddle"  alt="@(item.Title)"/></a></text>
-                } else { 
-                    <text><a href="###" onclick="showIframeDialog({draggable: false,url:'/passport/minilogin',width:340,height:220});"><img src="/images/download_ico.jpg" width="19" height="18" align="absmiddle"  alt="@(item.Title)"/></a></text>
-                }
+                <a href="@(item.DownloadUrl.TrimEnd())" target="_blank" title="@(item.Title)"><img src="/images/download_ico.jpg" width="19" height="18" align="absmiddle"  alt="@(item.Title)"/></a>
                 </div>
         </div>
         <span class="box_15"></span></li>
