@@ -8,7 +8,7 @@ namespace Elco.Config
         /// </summary>
         public static readonly int ProductRootId = 4;
         public static readonly int ProductRootId_EN = 2;
-        public static readonly int ProductRootId_DE = 2;
+        public static readonly int ProductRootId_DE = 3;
         /// <summary>
         /// 新闻中心跟级别ID
         /// </summary>
@@ -33,6 +33,6 @@ namespace Elco.Config
         /// </summary>
         public static readonly int DownloadRootId = 6;
         public static readonly int DownloadRootId_EN = 4;
-        public static readonly int DownloadRootId_DE = 4;
+        public static readonly int DownloadRootId_DE = 5;
     }
 }

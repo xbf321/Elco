@@ -115,6 +115,7 @@
     <Content Include="bin\log4net.dll" />
     <Content Include="bin\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="DotNetInfo.aspx" />
+    <Content Include="Editor\tiny_mce\langs\en.js" />
     <Content Include="Editor\tiny_mce\langs\zh-cn.js" />
     <Content Include="Editor\tiny_mce\plugins\attach\attach.htm" />
     <Content Include="Editor\tiny_mce\plugins\attach\editor_plugin.js" />
@@ -387,7 +388,6 @@
     <Content Include="Views\Channel\Show.cshtml" />
     <Content Include="Views\Download\Index.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\NewIndex.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />

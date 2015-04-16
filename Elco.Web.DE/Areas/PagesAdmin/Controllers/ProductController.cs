@@ -30,7 +30,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
         public ActionResult CatList() {
 
             //获得产品中心下的所有分类
-            var productCategoryList = CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_EN);   
+            var productCategoryList = CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_DE);   
 
 
             var catHtml = BuildListForAdminWithEdit(productCategoryList, 0);
@@ -50,26 +50,26 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
                 sb.AppendFormat("<span class=\"cat\"><span class=\"cat-name\">{0}（{1}）</span>", item.Name, item.Id);
 
                 sb.Append("<span class=\"cat-operate\">");
- 
-                sb.AppendFormat("&nbsp;&nbsp;<a href=\"catcreate?catId={0}\">添加子分类</a>", item.Id);
-                sb.AppendFormat("&nbsp;&nbsp;<a href=\"catcreate?id={0}\">编辑</a>", item.Id);
+
+                sb.AppendFormat("&nbsp;&nbsp;<a href=\"catcreate?catId={0}\">Add sub-categories</a>", item.Id);
+                sb.AppendFormat("&nbsp;&nbsp;<a href=\"catcreate?id={0}\">Edit</a>", item.Id);
                 if (!item.IsEnabled)
                 {
-                    sb.Append("&nbsp;&nbsp;<font color=\"red\">未启用</font>");
-                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'enable')\">启用</a>", item.Id);
+                    sb.Append("&nbsp;&nbsp;<font color=\"red\">Not Enabled</font>");
+                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'enable')\">Enable</a>", item.Id);
                 }
                 else
                 {
-                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'disable')\">禁用</a>", item.Id);
+                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'disable')\">Disable</a>", item.Id);
                 }
                 if (item.IsDeleted)
                 {
-                    sb.Append("&nbsp;&nbsp;<font color=\"red\">已删除</font>");
-                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'restore')\">还原</a>", item.Id);
+                    sb.Append("&nbsp;&nbsp;<font color=\"red\">Deleted</font>");
+                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'restore')\">Restore</a>", item.Id);
                 }
                 else
                 {
-                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'delete')\">删除</a>", item.Id);
+                    sb.AppendFormat("&nbsp;&nbsp;<a href=\"###\" onclick=\"operate({0},'delete')\">Delete</a>", item.Id);
                 }
                 sb.Append("</span></span>");
 
@@ -99,25 +99,25 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             bool isAdd = modelInfo.Id == 0 ? true : false;
             bool errors = false;
             int catId = Controleng.Common.Utils.StrToInt(fc["ddlCat"], 0);
-            if (modelInfo.Id != GeneralConfig.ProductRootId_EN)
+            if (modelInfo.Id != GeneralConfig.ProductRootId_DE)
             {
                 if (catId == 0)
                 {
                     errors = true;
-                    ModelState.AddModelError("CAT", "请选择分类");
+                    ModelState.AddModelError("CAT", "Please select the category");
                 }
             }
             if (string.IsNullOrEmpty(modelInfo.Name))
             {
                 errors = true;
-                ModelState.AddModelError("NAME", "请输入名称");
+                ModelState.AddModelError("NAME", "Please enter a name");
             }
 
             var parentModelInfo = CategoryService.Get(catId);
             if (CategoryService.ExistsName(modelInfo.Id, modelInfo.Name, parentModelInfo.Id))
             {
                 errors = true;
-                ModelState.AddModelError("NAME", "分类名称不能重复");
+                ModelState.AddModelError("NAME", "Category names can not be repeated");
             }
             if (!errors && ModelState.IsValid)
             {
@@ -137,11 +137,11 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
                 CategoryService.Create(modelInfo);
                 if (isAdd)
                 {
-                    ViewBag.Msg = string.Format("添加成功！是否继续添加？<a href=\"catcreate?catId={0}\">【是】</a>&nbsp;&nbsp;<a href=\"catlist\">【否】</a>", CECRequest.GetQueryInt("catId", 0));
+                    ViewBag.Msg = string.Format("Add success.Continue?<a href=\"catcreate?catId={0}\">【Yes】</a>&nbsp;&nbsp;<a href=\"catlist\">【No】</a>", CECRequest.GetQueryInt("catId", 0));
                 }
                 else
                 {
-                    ViewBag.Msg = "更新成功！<a href=\"catlist\">返回</a>";
+                    ViewBag.Msg = ("Update success.<a href=\"List\">Back</a>");
                 }
             }
 
@@ -167,7 +167,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             bool isAdd = model.Id == 0 ? true : false;
             if(string.IsNullOrEmpty(model.Title)){
                 errors = true;
-                ModelState.AddModelError("Title","产品名称不能为空");
+                ModelState.AddModelError("Title", "Name can not be empty");
             }
             if(!errors && ModelState.IsValid){
 
@@ -196,11 +196,11 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
 
                 if (isAdd)
                 {
-                    ViewBag.Msg = "添加成功！是否继续？【<a href=\"create\">是</a>】&nbsp;【<a href=\"list\">否</a>】";
+                    ViewBag.Msg = "Add success.Continue?【<a href=\"create\">Yes</a>】&nbsp;【<a href=\"list\">No</a>】";
                 }
                 else
                 {
-                    ViewBag.Msg = "修改成功！是否继续？【<a href=\"create\">是</a>】&nbsp;【<a href=\"list\">否</a>】";
+                    ViewBag.Msg = "Update success.Continue?【<a href=\"create\">Yes</a>】&nbsp;【<a href=\"list\">No</a>】";
                 }
             }
             return View(model);
@@ -217,7 +217,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             int catId = CECRequest.GetQueryInt("catId",0);
 
 
-            var oldCatList = CategoryService.ListAllSubCatById(GeneralConfig.ProductRootId_EN);
+            var oldCatList = CategoryService.ListAllSubCatById(GeneralConfig.ProductRootId_DE);
             var newCatList = new List<CategoryInfo>();
 
             Action<IEnumerable<CategoryInfo>, List<CategoryInfo>, int, int> fb = null;
@@ -257,7 +257,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
         {
 
             //获取产品中心一级分类
-            var parentCatList = CategoryService.ListByParentId(Elco.Config.GeneralConfig.ProductRootId_EN);
+            var parentCatList = CategoryService.ListByParentId(Elco.Config.GeneralConfig.ProductRootId_DE);
             ViewBag.ParentCatList = parentCatList;
 
 
@@ -371,7 +371,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
         [ChildActionOnly]
         public ActionResult RenderCatJSON() {
             StringBuilder json = new StringBuilder();
-            var list = CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_EN).Where(p => { return p.IsDeleted == false && p.ParentId != 0; });
+            var list = CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_DE).Where(p => { return p.IsDeleted == false && p.ParentId != 0; });
             int i = 0, l = list.Count();
             json.Append("[");
             foreach(var item in list){

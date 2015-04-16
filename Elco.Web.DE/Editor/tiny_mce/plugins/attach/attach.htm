@@ -11,7 +11,7 @@
     <table>
         <tr>
             <td>
-                <b>1,请点击下面的【本地浏览文件】按钮</b>
+                <b>1,Please click on the [local] button to browse files</b>
             </td>
         </tr>
         <tr>
@@ -26,13 +26,13 @@
         </tr>
         <tr>
             <td>
-                <b>2,再点击【开始上传】,文件大小 < 50M</b>
+                <b>2,Then click [start] upload file size < 50M</b>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="button" value="开始上传" onclick="customerUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
-                    type="button" id="btnUploadCancle" value="取消上传" onclick="swfu.cancelQueue();"
+                <input type="button" value="Upload" onclick="customerUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
+                    type="button" id="btnUploadCancle" value="Cancl" onclick="swfu.cancelQueue();"
                     disabled="disabled" />
             </td>
         </tr>
@@ -45,10 +45,10 @@
             <td><span id="url"></span></td>
         </tr>
         <tr>
-            <td><b>3,完成点击【插入】</b></td>
+            <td><b>3,Complete click [Insert]</b></td>
         </tr>
         <tr>
-            <td><input type="submit" id="insert" name="insert" value="插入" /><input type="button" id="cancel" name="cancel" value="取消" onclick="tinyMCEPopup.close();" /></td>
+            <td><input type="submit" id="insert" name="insert" value="Insert" /><input type="button" id="cancel" name="cancel" value="Cancel" onclick="tinyMCEPopup.close();" /></td>
         </tr>
     </table>
     <script type="text/javascript">
@@ -72,12 +72,12 @@
             },
             swfupload_preload_handler: function preLoad() {
                 if (!this.support.loading) {
-                    alert("你需要安装Flashplayer才能使用上传功能！");
+                    alert("You need to install Flashplayer to use the upload feature");
                     return false;
                 }
             },
             swfupload_load_failed_handler: function loadFailed() {
-                alert("Flash加载失败，请联系网站管理员！");
+                alert("Flash failed to load, please try again");
             },
             file_dialog_complete_handler: function fileDialogComplete(numFilesSelected, numFilesQueued) {
                 try {
@@ -98,7 +98,7 @@
                     var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
                     document.getElementById('processbar').innerHTML = percent + "%";
                     if (percent == 100) {
-                        document.getElementById('processbar').innerHTML = "上传已完成！";
+                        document.getElementById('processbar').innerHTML = "Upload has completed.";
                     }
                 } catch (ex) {
                     this.debug(ex);
@@ -119,7 +119,7 @@
             },
             upload_error_handler: uploadError,
             // Button Settings
-            button_text: '<span class="redText">本地浏览文件</span>',
+            button_text: '<span class="redText">Local browse files</span>',
             button_text_style: ".redText { color: #FF0000; }",
             button_placeholder_id: "swfuploadPlaceholder",
             button_width: 90,
@@ -138,17 +138,17 @@
             tinyMCEPopup.restoreSelection();
             var url = document.getElementById('url').innerHTML, html = '';
             if (url === '') {
-                alert('请上传文件');
+                alert('Please upload a file');
                 return;
             }
-            html += '<a href="' + url + '" target="_blank">下载附件</a>';
+            html += '<a href="' + url + '" target="_blank">Download attachments</a>';
             ed.execCommand('mceInsertContent', false, html);
             ed.undoManager.add();
             tinyMCEPopup.close();
         }
         function customerUpload() {
             if (swfu.getStats().files_queued === 0) {
-                alert("请先选择本地文件");
+                alert("Please select a local file");
                 return false;
             }
             document.getElementById('btnStartUpload').disabled = true;

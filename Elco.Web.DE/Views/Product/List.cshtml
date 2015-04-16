@@ -5,7 +5,7 @@
 <div class="channel_nameNtpages">
     <p class="channelname">@(ViewBag.CurrentCategoryInfo.Name)</p>
     <div class="channepages">
-        @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" },1))
+       @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" }, new Elco.Models.PageOptions() { NextText = "nächste", PrevText = "früher", LastText = "", FirstText = "", TotalText = "Total" }))
     </div>
 </div>
 @foreach (var item in ViewBag.List)
@@ -23,7 +23,7 @@
             <ul class="prodshow_infoTitle tabs-nav">
                 <li class="on"><a href="javascript:void(0);">Specification</a></li>
                 @if (!string.IsNullOrEmpty(Goodspeed.Library.Char.HtmlHelper.RemoveHtml(item.Introduction)))
-                { 
+                {
                     <text><li><a href="javascript:void(0);">Introduction</a></li></text>
                 }
                 @if (!string.IsNullOrEmpty(Goodspeed.Library.Char.HtmlHelper.RemoveHtml(item.SonModel)))
@@ -46,7 +46,7 @@
                     <table width="100%" cellspacing="0" cellpadding="0" border="0" class="prop-tb">
                         @{
                         for (int i = 0; i < count; i = i + 2)
-                        { 
+                        {
                             <text>
                             <tr>
                                 <th align="left" width="110">@(item.Props[i].Name):
@@ -63,7 +63,7 @@
                                     </text>
                                 }
                                 else
-                                { 
+                                {
                                     <text><th>&nbsp;</th><td>&nbsp;</td></text>
                                 }
                             </tr>
@@ -71,7 +71,7 @@
                         }
                         }
                         @if (!string.IsNullOrEmpty(item.DocumentUrl))
-                        { 
+                        {
                             <text>
                             <tr>
                                 <th>
@@ -98,8 +98,14 @@
     </div>
     </text>
 }
-<span class="box_30"></span>
-@Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" },1))
+
+@if(ViewBag.List.Count == 0){
+    <text><span style="display:block;padding:10px;font-weight:bold;">Seite in Arbeit</span></text>
+}else{
+    <text><span class="box_30"></span></text>
+}
+
+@Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagebar" }, new Elco.Models.PageOptions() { NextText = "nächste", PrevText = "früher", LastText = "", FirstText = "", TotalText = "Total" }))
 @section footer{
     <script type="text/javascript">
         $(function () {

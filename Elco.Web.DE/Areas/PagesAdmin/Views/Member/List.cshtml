@@ -1,18 +1,18 @@
 ﻿@{
-    ViewBag.Title = "用户列表";
+    ViewBag.Title = "list of users";
     Layout = "../Shared/_Layout.cshtml";
 }
 <fieldset>
-    <legend>用户列表</legend>
+    <legend>list of users</legend>
     <table class="tblist" width="100%">
         <tr>
-            <th width="10%">用户名</th>
-            <th width="8%">姓名</th>
-            <th>职位</th>
-            <th>公司</th>
+            <th width="10%">user name</th>
+            <th width="8%">Full name</th>
+            <th>Position</th>
+            <th>company</th>
             <th width="10%">Email</th>
-            <th width="10%">电话</th>
-            <th width="14%">注册时间</th>
+            <th width="10%">Telephone</th>
+            <th width="14%">Registration time</th>
         </tr>
         @foreach(var item in ViewBag.List){
             <tr>
@@ -26,6 +26,6 @@
             </tr>
         }
     </table>
-    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" }))
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" },1))
 </fieldset>
 

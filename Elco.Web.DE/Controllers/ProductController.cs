@@ -30,11 +30,11 @@ namespace Elco.Web.En.Controllers
             //主要显示Banner图片
             ViewBag.RootCategoryInfo = CategoryService.Get(GeneralConfig.ProductRootId_DE);
 
-            int catId = GeneralConfig.ProductRootId_EN;
+            int catId = GeneralConfig.ProductRootId_DE;
             var absolutePath = Request.Url.AbsolutePath;
             Match m = Regex.Match(absolutePath,@"list\-(\d+)\.html",RegexOptions.IgnoreCase);
             if(m.Success){
-                catId = Utils.StrToInt(m.Groups[1].Value, GeneralConfig.ProductRootId_EN);
+                catId = Utils.StrToInt(m.Groups[1].Value, GeneralConfig.ProductRootId_DE);
             }
             var currentCategoryInfo = CategoryService.Get(catId);
             if(currentCategoryInfo.Id == 0 || currentCategoryInfo.IsDeleted){
@@ -89,7 +89,7 @@ namespace Elco.Web.En.Controllers
 
             sbHtml.Append("<select name=\"ddlProductCat\" id=\"ddlProductCat\" class=\"prodSelect\"  onchange=\"window.location.href=this.value;\">");
             foreach(var item in newCatList){
-                sbHtml.AppendFormat("<option value=\"/product/{1}\" parentid=\"{2}\" {3}>{0}</option>", 
+                sbHtml.AppendFormat("<option value=\"/produke/{1}\" parentid=\"{2}\" {3}>{0}</option>", 
                     item.Name.Replace("#", "&nbsp;&nbsp;"), 
                     //item.Name,
                     item.Id == GeneralConfig.ProductRootId ? string.Empty : string.Format("list-{0}.html",item.Id),
@@ -137,7 +137,7 @@ namespace Elco.Web.En.Controllers
                     string liLevelClass = string.Format(" class=\"li-level-{0}\"",level);                  
 
                     sb.AppendFormat("<li {0}>",string.Empty);
-                    sb.AppendFormat("<a href=\"/product/list-{1}.html\" id=\"p_menu_{1}\" title=\"{0}\" class=\"{2}\">{0}", item.Name, item.Id, ishasChild ? "sub-icon" : string.Empty);
+                    sb.AppendFormat("<a href=\"/produke/list-{1}.html\" id=\"p_menu_{1}\" title=\"{0}\" class=\"{2}\">{0}", item.Name, item.Id, ishasChild ? "sub-icon" : string.Empty);
                     if(ishasChild){
                         sb.Append("<!--[if IE 7]><!-->");
                     }

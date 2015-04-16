@@ -17,7 +17,7 @@
                 });
             });
             ed.addButton('xuimg', {
-                title: '\u4E0A\u4F20\u672C\u5730\u56FE\u7247',
+                title: 'Upload local image',
                 cmd: 'mceXuimg',
                 image: url + '/img/image.gif'
             });

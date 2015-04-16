@@ -1,22 +1,22 @@
 ﻿@{
-    ViewBag.Title = "投诉与建议";
+    ViewBag.Title = "Complaint and suggestion";
     Layout = "../Shared/_Layout.cshtml";
 }
 <fieldset>
-    <legend>投诉与建议</legend>
+    <legend>Complaint and suggestion</legend>
         @foreach (var item in ViewBag.List)
         { 
            <table width="100%">
             <tr>
                 <th width="8%" align="right">
-                    标题：
+                    Title：
                 </th>
                 <td align="left">@item.Title
                 </td>
             </tr>
             <tr>
                 <th align="right">
-                    内容：
+                    Content：
                 </th>
                 <td align="left">@item.Content
                 </td>
@@ -25,12 +25,12 @@
                 <th>
                 </th>
                 <td>
-                    联系人：@(item.Contact),地址：@(item.Address),邮箱：@(item.Email),电话：@(item.Phone),传真：@(item.Fax),发表时间：@(item.CreateDateTime.ToString("yyyy-MM-dd"))
+                    Contact：@(item.Contact),Address：@(item.Address),mailbox：@(item.Email),Telephone：@(item.Phone),Fax：@(item.Fax),time of publication：@(item.CreateDateTime.ToString("yyyy-MM-dd"))
                 </td>
             </tr>
         </table>
         <hr />
         }
-    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" }))
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(ViewBag.List.PageIndex, ViewBag.List.PageSize, ViewBag.List.TotalItemCount, new { @class = "pagerbar" },1))
 </fieldset>
 

@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "类别列表";
+    ViewBag.Title = "The category list";
     Layout = "../Shared/_Layout.cshtml";
 }
 <fieldset>
-    <legend>类别列表</legend>
+    <legend>The category list</legend>
     <table width="100%">
         <tr>
-            <td colspan="2"><a href="create" class="btn-add">添加分类</a></td>
+            <td colspan="2"><a href="create" class="btn-add" style=" width:120px;">Add classification</a></td>
         </tr>
         <tr>
             <td id="catTree" colspan="2">@Html.Raw(ViewBag.CatHtml)</td>
@@ -16,7 +16,7 @@
 @section footer{
     <script type="text/javascript">        
         function operate(id, action) {
-            if (window.confirm('确认操作？')) {
+            if (window.confirm('To confirm the operation?')) {
                 window.location.href = 'operate?id='+id+'&action='+action;
             }
         }

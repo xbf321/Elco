@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>上传本地图片</title>
+    <title>Upload Image</title>
     <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
     <script src="jquery-1.4.4.min.js" type="text/javascript"></script>
     <script src="jquery.ajaxfileupload.js" type="text/javascript"></script>
@@ -13,9 +13,9 @@
                 <td>
                     <div>
                         <form>
-                        <input id="img0" type="file" name="img0" />&nbsp;<input type="button" value="上 传"
+                        <input id="img0" type="file" name="img0" />&nbsp;<input type="button" value="Upload"
                             name="startupimg" id="startupimg" onclick="upload();return false;"><br>
-                        <span>图片的大小不超过3M,只允许jpg,jpeg,gif,bmp,png</span><br />
+                        <span>The size of the picture does not exceed 3M, allowing only:jpg,jpeg,gif,bmp,png</span><br />
                         <br />
                         </form>
                     </div>
@@ -38,7 +38,7 @@
 	                        allowType: 'jpg|png|bmp|gif|jpeg',
 	                        beforeSend: function () {
 	                            $("#loading").show();
-	                            $("#loading").html('正在上传照片,请不要刷新或者离开此页面...');
+	                            $("#loading").html('Uploading photos, please do not refresh or leave this page...');
 	                        },
 	                        complete: function () {
 	                            $("#loading").hide();
@@ -46,12 +46,12 @@
 	                        success: function (data, status) {	                            
 	                            if (status == 'success') {
 	                                if (data == '0') {
-	                                    alert('需要选择图片上传');
+	                                    alert('Need to select a picture to upload');
 	                                } else if (data == '1') {
-	                                    alert('照片格式有误(仅支持JPG, JPEG, GIF, PNG或BMP)');
+	                                    alert('Malformed(JPG, JPEG, GIF, PNG Or BMP)');
 	                                }
 	                                else if (data == '2') {
-	                                    alert('图片大小不能超过3兆');
+	                                    alert('Image size can not exceed 3M');
 	                                }
 	                                else {
 	                                    if (data != "") {
@@ -60,7 +60,7 @@
 	                                }
 	                            }
 	                            else {
-	                                alert("添加图片出错");
+	                                alert("Add image error");
 	                                tinyMCEPopup.close();
 	                            }
 	                        },

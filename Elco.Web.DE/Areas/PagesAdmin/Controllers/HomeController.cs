@@ -33,12 +33,12 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
 
             bool errors = false;
             if(string.IsNullOrEmpty(model.UserName)){
-                ModelState.AddModelError("UserNameEmpty","请输入用户名！");
+                ModelState.AddModelError("UserNameEmpty", "Please enter your user name.");
                 errors = true;
             }
             if(string.IsNullOrEmpty(model.UserPassword)){
                 errors = true;
-                ModelState.AddModelError("UserPasswordEmpty","请输入密码！");
+                ModelState.AddModelError("UserPasswordEmpty", "Please enter a password.");
             }
             if (!errors && ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
                     ElcoHttpContext.Current.LoginEvent(ElcoHttpContext.Current.AdminCookieName,memberInfo);
                     return Redirect("/pagesadmin/");
                 }
-                ModelState.AddModelError("LoginError","用户名或密码错误，请重试！");               
+                ModelState.AddModelError("LoginError", "User name or password is incorrect, please try again.");               
                 
             }
             return View();

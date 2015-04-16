@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "产品分类";
+    ViewBag.Title = "Product classification";
     Layout = "../Shared/_Layout.cshtml";
 }
 <fieldset>
-    <legend>产品类别列表</legend>
+    <legend>Product category</legend>
     <table width="100%">
         <tr>
-            <td align="right"><a href="catcreate" class="btn-add">添加产品分类</a></td>
+            <td align="right"><a href="catcreate" class="btn-add" style=" width:170px;">Add product classification</a></td>
         </tr>
     </table>
     <table width="100%">
@@ -18,7 +18,7 @@
 @section footer{
     <script type="text/javascript">
         function operate(id, action) {
-            if (window.confirm('确认操作？')) {
+            if (window.confirm('To confirm the operation？')) {
                 window.location.href = '../category/operate?id=' + id + '&action=' + action;
             }
         }

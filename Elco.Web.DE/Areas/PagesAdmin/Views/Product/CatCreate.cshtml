@@ -1,7 +1,7 @@
 ﻿@model  Elco.Models.CategoryInfo
 @{
     Layout = "../Shared/_Layout.cshtml";
-    ViewBag.Title = "添加或编辑产品分类";
+    ViewBag.Title = "Add or edit product classification";
 
     //编辑使用
     int id = Controleng.Common.CECRequest.GetQueryInt("id",0);
@@ -12,7 +12,7 @@
     }
 
     //输出产品分类下拉列表
-    var all = Elco.Services.CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_EN).Where(p => p.IsDeleted == false).ToList();
+    var all = Elco.Services.CategoryService.ListAllSubCatById(Elco.Config.GeneralConfig.ProductRootId_DE).Where(p => p.IsDeleted == false).ToList();
     var list = new List<Elco.Models.CategoryInfo>();
     Elco.Services.CategoryService.BuildListForTree(list, all, 0);
 }
@@ -26,11 +26,11 @@
     <table width="100%">
         <tr>
             <th width="100px" align="right">
-                所属分类：
+                Classification of the：
             </th>
             <td>
                 <select id="ddlCat" name="ddlCat">
-                    <option value="0">==请选择==</option>
+                    <option value="0">==Please select==</option>
                     @foreach (var item in list)
                     {
                         <text><option value="@(item.Id)" @Html.Raw(Model.ParentId.Equals(item.Id) ? "selected=\"selected\"" : string.Empty)>└@(item.Name)</option></text>
@@ -40,14 +40,14 @@
         </tr>
         <tr>
             <th align="right">
-                名称：
+                Name：
             </th>
             <td>@Html.TextBoxFor(m => m.Name, new { style = "width:300px" })
             </td>
         </tr>
         <tr>
             <th align="right" valign="top">
-                描述：
+                Description：
             </th>
             <td>
                 @Html.TextAreaFor(m => m.Introduction, new { style = "width:100%;" })
@@ -55,24 +55,24 @@
         </tr>
         <tr>
             <th align="right">
-                分类图片：
+                Classification of images：
             </th>
-            <td>@Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
+            <td>@Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">Upload a picture</a>
             </td>
         </tr>
-        @if(id == Elco.Config.GeneralConfig.ProductRootId_EN){
+        @if(id == Elco.Config.GeneralConfig.ProductRootId_DE){
             <tr>
             <th align="right">
-                Banner图片：
+                Banner picture：
             </th>
             <td>
-                 @Html.TextBoxFor(m => m.BannerAdImageUrl, new { style = "width:300px" })<span class="tip">只针对根分类有用</span><a
-                                        href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=BannerAdImageUrl',400,100,200);">上传图片</a>
+                 @Html.TextBoxFor(m => m.BannerAdImageUrl, new { style = "width:300px" })<span class="tip">Only for the root category of useful</span><a
+                                        href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=BannerAdImageUrl',400,100,200);">Upload a picture</a>
             </td>
         </tr>
             <tr>
             <th align="right">
-                快速链接：
+                Quick links：
             </th>
             <td>
                 @Html.TextBoxFor(m => m.LinkUrl)
@@ -81,25 +81,25 @@
         }
         <tr>
             <th align="right">
-                排序：
+                Sorting：
             </th>
             <td>
-                @Html.TextBoxFor(m => m.Sort)<span class="tip">数值越小，位置越靠前</span>
+                @Html.TextBoxFor(m => m.Sort)<span class="tip">Numerical value is small, the more forward position</span>
             </td>
         </tr>
         <tr>
             <th align="right" valign="top">
-                属性：
+                Attribute：
             </th>
-            <td>@Html.CheckBoxFor(m => m.IsEnabled)是否启用（<font color="red">如果禁用，则在前台不显示</font>）<br />
-                @Html.CheckBoxFor(m => m.IsDeleted)是否删除（<font color="red">逻辑删除，可以还原</font>）
+            <td>@Html.CheckBoxFor(m => m.IsEnabled)Whether to enable（<font color="red">If disabled, it does not appear in the foreground</font>）<br />
+                @Html.CheckBoxFor(m => m.IsDeleted)Do you want to delete（<font color="red">Delete, you can restore</font>）
             </td>
         </tr>
         <tr>
             <td>
             </td>
             <td>
-                <a href="catlist">返回</a>&nbsp;&nbsp;<input type="submit" value="保存" />
+                <a href="catlist">Return</a>&nbsp;&nbsp;<input type="submit" value="Preservation" />
             </td>
         </tr>
     </table>

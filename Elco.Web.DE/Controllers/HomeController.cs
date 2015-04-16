@@ -23,7 +23,7 @@ namespace Elco.Web.En.Controllers
         {
 
             //焦点图片
-            var focus = ArticleService.ListWithoutPage(91,4);
+            var focus = ArticleService.ListWithoutPage(27,4);
             //焦点图有两张图（大图和小图）
             //大图用ImageUrl,小图用Content中第一个图片
             foreach(var item in focus){
@@ -49,6 +49,14 @@ namespace Elco.Web.En.Controllers
 
 
             ViewBag.Focus = focus;
+
+           
+            var newsCenter = ArticleService.ListWithoutPage(24, 6, true);
+            ViewBag.NewsCenter = newsCenter;
+
+
+            var produktHighlights = ArticleService.ListWithoutPage(10, 6, true);
+            ViewBag.ProduktHighlights = produktHighlights;
 
 
             return View("NewIndex");
@@ -146,7 +154,7 @@ namespace Elco.Web.En.Controllers
             linkFormat = string.IsNullOrEmpty(linkFormat) ? string.Empty : linkFormat;
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("<p class=\"floatR\"><strong>Current Location： </strong><a href=\"/\">Home</a>");
+            sb.Append("<p class=\"floatR\"><strong>Momentane Position： </strong><a href=\"/\">Home</a>");
 
             //递归输出导航
             var parentCatList = CategoryService.ListUpById(currentCategoryInfo.Id);

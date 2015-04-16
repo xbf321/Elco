@@ -1,37 +1,37 @@
 ﻿@{
      Layout = "../Shared/_Layout.cshtml";
-    ViewBag.Title = "文章管理";
+    ViewBag.Title = "article management";
     var articleList = ViewBag.ArticleList;
     int catId = Controleng.Common.CECRequest.GetQueryInt("cid",0);
 }
 <fieldset>
-    <legend>文章管理</legend>
+    <legend>article management</legend>
     <table>
         <tr>
-            <th>选择分类：</th>
+            <th>Select a category：</th>
             <td>
             @Html.Action("RenderCategoryDropdown", "Article", new { name = "CategoryId", selectedValue = catId })</td>
-            <td><input type="button" value="查询" id="btnSearch" /></td>
-            <td><a href="Create" class="btn-add">添加文章</a></td>
+            <td><input type="button" value="Query" id="btnSearch" /></td>
+            <td><a href="Create" class="btn-add">Add article</a></td>
         </tr>
     </table>
     <table width="100%" class="tblist">
         <tr>
             <th width="10%">
-                序号
+                Serial number
             </th>
             <th>
-                标题
+                Title
             </th>
             <th width="12%">
-                发布时间
+                Release time
             </th>
             <th width="10%">
-                是否发布
+                Whether to publish
             </th>
-            <th width="10%">置顶</th>
+            <th width="10%">Top</th>
             <th width="10%">
-                操作
+                Operation
             </th>
         </tr>
         @foreach (var item in articleList)
@@ -39,19 +39,19 @@
             <tr>
                 <td class="tdcenter">@item.Id
                 </td>
-                <td style="padding-left: 5px;"><a href="@(string.IsNullOrEmpty(item.LinkUrl) ?  item.Url + "?preview" : "javascript:alert('此文章设置了快速链接，禁止预览！');")" target="_blank">@(item.Title)</a>
+                <td style="padding-left: 5px;"><a href="@(string.IsNullOrEmpty(item.LinkUrl) ?  item.Url + "?preview" : "javascript:alert('This article set the quick links, prohibit the preview!');")" target="_blank">@(item.Title)</a>
                 </td>
                 <td class="tdcenter">@item.PublishDateTime.ToString("yyyy-MM-dd")
                 </td>
-                <td class="tdcenter" id="td_@(item.Id)">@Html.Raw(item.IsPublished ? "已发布" : "<font color=\"red\">未发布</font>"+(string.IsNullOrEmpty(item.LinkUrl) ? "&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"setpublish("+item.Id+");\" >发布</a>" : string.Empty))</td>
-                <td class="tdcenter">@Html.Raw(item.IsTop ? "<font color=\"red\">置顶</font>" : "否")</td>
+                <td class="tdcenter" id="td_@(item.Id)">@Html.Raw(item.IsPublished ? "Published" : "<font color=\"red\">Unpublished</font>"+(string.IsNullOrEmpty(item.LinkUrl) ? "&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"setpublish("+item.Id+");\" >Release</a>" : string.Empty))</td>
+                <td class="tdcenter">@Html.Raw(item.IsTop ? "<font color=\"red\">Top</font>" : "No")</td>
                 <td class="tdcenter">
-                    <a href="create?id=@(item.Id)" class="edit">编辑</a>
+                    <a href="create?id=@(item.Id)" class="edit">Edit</a>
                 </td>
             </tr>
         }
     </table>
-    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagerbar" }))
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagerbar" },1))
 </fieldset>
 @section footer{
     <script type="text/javascript">
@@ -61,17 +61,17 @@
                 window.location.href = '?cid=' + cid;
             });
         });
-        //设置发布
+        //Set the publishing
         function setpublish(id) {
-            if (window.confirm('确实要发布吗？')) {
+            if (window.confirm('Are you sure you want to publish?')) {
                 $.ajax({
                     type: 'POST',
                     data: jQuery.param({ id: id }),
                     url: 'SetPublishStatus',
                     success: function (msg) {
                         if (msg.Status) {
-                            alert('设置成功！');
-                            $('#td_' + id).html('已发布');
+                            alert('Set successfully!');
+                            $('#td_' + id).html('Published');
                         }
                     }
                 });

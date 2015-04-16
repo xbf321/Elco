@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "产品属性管理";
+    ViewBag.Title = "Product attribute management";
     Layout = "../Shared/_Layout.cshtml";   
 }
 @section header{
@@ -10,50 +10,50 @@
         select{width:150px;}
     </style>
     <script type="text/javascript">
-        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_EN);
+        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_DE);
         _GLOBAL.catItems = @Html.Action("RenderCatJSON", "Product");
     </script>
 }
 <fieldset>
-    <legend>产品属性管理</legend>
+    <legend>Product attribute management</legend>
     <input type="hidden" value="0" id="hfLeafCid" />
     <input type="hidden" value="0" id="hfPropId"/>
     <div class="cat-nav-wrapper">
-        <div class="name"><b>产品分类：</b></div>
+        <div class="name"><b>Product classification：</b></div>
         <div id="cid_999999_span" style="float: left; padding: 0px 1px;" class="cat-wrapper"></div>        
-        <div id="ajaxPic" style="display:none;float:left;margin:2px 0px 0px 10px"><img src="/images/ajax.gif"  alt="正在载入，请稍等。。"/>正在载入，请稍等。。</div>
+        <div id="ajaxPic" style="display:none;float:left;margin:2px 0px 0px 10px"><img src="/images/ajax.gif"  alt="Loading, please wait.."/>Loading, please wait..</div>
     </div>
     <div class="clear"></div>
     <div id="prop-form" style="margin-top:10px;" class="none">
-        <div class="mb10"><a href="javascript:void(0);" class="btn-add" id="btn-show-dialog">添加属性名</a>&nbsp;&nbsp;<a href="javascript:void(0);" class="btn-add" id="btn-batch-show-dialog">批量添加</a></div>
+        <div class="mb10"><a href="javascript:void(0);" class="btn-add" id="btn-show-dialog">添加属性名</a>&nbsp;&nbsp;<a href="javascript:void(0);" class="btn-add" id="btn-batch-show-dialog">Batch add</a></div>
         <div class="clear"></div>
         <div id="prop-form-table" style="margin-top:10px;"></div>
     </div>
     <div id="add-prop-diaglog" class="none">        
         <table>
             <tr>
-                <th>属性名称：</th>
+                <th>The name of the attribute：</th>
                 <td><input type="text" id="txtName" class="n"/></td>
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" id="btn-add" value="保存" /></td>
+                <td><input type="button" id="btn-add" value="Preservation" /></td>
             </tr>
         </table>
     </div>
     <div id="add-batch-prop-dialog" class="none">
         <table>
             <tr>
-                <th valign="top">属性名：</th>
+                <th valign="top">The name of the attribute：</th>
                 <td><textarea id="txtBatchName" rows="10" cols="30"></textarea></td>
             </tr>
             <tr>
                 <td></td>
-                <td><font color="red">（一行一个属性名称）</font></td>
+                <td><font color="red">（A line of a property name）</font></td>
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" value="保存" id="btn-batch-add" /></td>
+                <td><input type="button" value="Preservation" id="btn-batch-add" /></td>
             </tr>
         </table>
     </div>
@@ -74,7 +74,7 @@
             //显示批量对话框
             $('#btn-batch-show-dialog').click(function () {
                 addBatchDialogObj.dialog({
-                    title: '添加批量属性',
+                    title: 'Add bulk properties',
                     open: function () {
                         $(this).find('textarea').text('');
                     },
@@ -94,7 +94,7 @@
         function showPropDialog(propName) {
             propName = propName || '';
             addDialogObj.dialog({
-                title: '属性对话框',
+                title: 'The properties dialog box',
                 open: function () {
                     $(this).find('.n').val(propName);
                 },
@@ -107,7 +107,7 @@
         function saveProp_Click() {
             var txtNameObj = $('#txtName');
             if ($.trim(txtNameObj.val()) === '') {
-                alert('请输入属性名！');
+                alert('Please enter the name of the attribute!');
                 txtNameObj.focus();
                 return;
             }
@@ -122,7 +122,7 @@
                     if (data.error) {
                         alert(data.msg);
                     } else {
-                        alert('保存成功！');
+                        alert('Saved successfully!');
                     }
                     loadProps(leafCid);
                     addDialogObj.dialog('close');
@@ -133,7 +133,7 @@
         function saveBatchProp_Click() {
             var txtNameObj = $('#txtBatchName');
             if ($.trim(txtNameObj.val()) === '') {
-                alert('请输入属性名！');
+                alert('Please enter the name of the attribute!');
                 txtNameObj.focus();
                 return;
             }
@@ -147,7 +147,7 @@
                     if (data.error) {
                         alert(data.msg);
                     } else {
-                        alert('保存成功！');
+                        alert('Saved successfully!');
                     }
                     loadProps(leafCid);
                     addBatchDialogObj.dialog('close');
@@ -165,7 +165,7 @@
         }
         //删除操作
         function deleteProp_Click(propId) {
-            if (window.confirm('确定要删除吗？\r\n\r\n请谨慎操作！')) {
+            if (window.confirm('Are you sure you want to delete?\r\n\r\nPlease be careful!')) {
                 var leafCid = parseInt($('#hfLeafCid').val());
                 $.ajax({
                     type: 'POST',
@@ -175,7 +175,7 @@
                         if (data.error) {
                             alert(data.msg);
                         } else {
-                            alert('删除成功！');
+                            alert('Successfully deleted!');
                         }
                         //重新载入属性列表
                         loadProps(leafCid);
@@ -193,7 +193,7 @@
             sel.setAttribute('id', 'cid_' + cid);
             var op = document.createElement('OPTION');
             op.setAttribute('value', '0');
-            op.innerHTML = '==请选择==';
+            op.innerHTML = '==Please select==';
             sel.appendChild(op);
 
             for (var i in catItems) {
@@ -277,15 +277,15 @@
      
             
             if (data.length === 0) {
-                tableObj.html('无属性列表');
+                tableObj.html('No attribute list');
                 return;
             }
             var htmlArr = [];
-            htmlArr.push('<table class="tblist" width="350px"><tr><th>属性名称</th><th width="30%">操作</th></tr>');
+            htmlArr.push('<table class="tblist" width="350px"><tr><th>The name of the attribute</th><th width="30%">Operation</th></tr>');
             for (var i in data) {
                 var id = data[i]['Id'];
                 var name = data[i]['Name'];
-                htmlArr.push('<tr><td id="prop_'+id+'">' + name + '</td><td><a href="javascript:void(0);" onclick="editProp_Click(' + id + ');">编辑</a>&nbsp;|&nbsp;<a href="javascript:void(0);" onclick="deleteProp_Click('+id+');">删除</a></td></tr>');
+                htmlArr.push('<tr><td id="prop_'+id+'">' + name + '</td><td><a href="javascript:void(0);" onclick="editProp_Click(' + id + ');">Edit</a>&nbsp;|&nbsp;<a href="javascript:void(0);" onclick="deleteProp_Click('+id+');">Delete</a></td></tr>');
             }
             htmlArr.push('</table>');
             tableObj.html(htmlArr.join(''));

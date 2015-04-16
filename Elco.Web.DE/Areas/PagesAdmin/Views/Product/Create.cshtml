@@ -1,7 +1,7 @@
 ﻿@using System.Text;
 @model Elco.Models.ProductInfo
 @{
-    ViewBag.Title = "产品管理";
+    ViewBag.Title = "Product management";
     Layout = "../Shared/_Layout.cshtml";
 
     StringBuilder sbPropJSON = new StringBuilder();
@@ -49,7 +49,7 @@
             }
             return this;
         }
-        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_EN);
+        _GLOBAL.rootId = @(Elco.Config.GeneralConfig.ProductRootId_DE);
         _GLOBAL.catRoute = '@(Model.CategoryIdRoute)';
         _GLOBAL.catItems = @Html.Action("RenderCatJSON", "Product");
         _GLOBAL.propItems = [@Html.Raw(sbPropJSON.ToString())];
@@ -57,7 +57,7 @@
 }
 <form method="post" onsubmit="return checkForm();">
 <fieldset>
-    <legend>产品管理&nbsp;&nbsp;<a href="list">返回</a></legend>    
+    <legend>Product management&nbsp;&nbsp;<a href="list">Return</a></legend>    
     @Html.HiddenFor(m => m.CategoryId)
     @Html.HiddenFor(m => m.CategoryIdRoute)
     @Html.ValidationSummary()
@@ -68,69 +68,69 @@
     <table width="100%" border="0">
         <tr>
             <th align="right" width="10%">
-                产品类别：
+                Product categories：
             </th>
             <td>
                 <div>
                     <div id="cid_999999_span">
                     </div>
                     <div id="ajaxPic" style="display: none; float: left; margin: 2px 0px 0px 10px">
-                        <img src="/images/ajax.gif" alt="正在载入属性，请稍等。。" />正在载入属性，请稍等。。</div>
+                        <img src="/images/ajax.gif" alt="Loading the property, please wait." />Loading the property, please wait..</div>
                 </div>
             </td>
         </tr>
         <tr>
             <th align="right">
-                产品名称：
+                Product name：
             </th>
             <td>@Html.TextBoxFor(m => m.Title, new { style = "width:300px" })
             </td>
         </tr>
         <tr>
             <th valign="top" align="right">
-                产品描述：
+                Product description：
             </th>
             <td>@Html.TextBoxFor(m => m.Introduction)
             </td>
         </tr>
         <tr>
             <th valign="top" align="right">
-                子型号：
+                Sub model：
             </th>
             <td>@Html.TextBoxFor(m => m.SonModel)
             </td>
         </tr>
         <tr>
-            <th align="right" valign="top">产品属性：</th>
-            <td><ul id="prop-list">暂无属性</ul></td>
+            <th align="right" valign="top">Product attributes：</th>
+            <td><ul id="prop-list">No attribute</ul></td>
         </tr>
         <tr>
             <th align="right">
-                产品图片：
+                Product picture：
             </th>
-            <td>@Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
+            <td>@Html.TextBoxFor(m => m.ImageUrl, new { style = "width:300px" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">Upload a picture</a>
             </td>
         </tr>
         <tr>
             <th align="right" valign="top">
-                产品文档：
+                product documentation：
             </th>
             <td>@Html.TextBoxFor(m => m.DocumentUrl, new { style = "width:300px" })&nbsp;&nbsp;<span class="swfuploadWrapper"><span id="swfuploadPlaceholder"></span><span id="tempFileName"></span></span><br />
-            <input type="button" value="开始上传" onclick="customStartUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
-                    type="button" id="btnUploadCancle" value="取消上传" onclick="swfu.cancelQueue();"
+            <input type="button" value="Start upload" onclick="customStartUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
+                    type="button" id="btnUploadCancle" value="Cancel the upload" onclick="swfu.cancelQueue();"
                     disabled="disabled" /><span id="processbar"></span>
             </td>
         </tr>
         <tr>
             <th align="right">
-                排序：
+                Sorting：
             </th>
             <td>@Html.TextBoxFor(m =>m.Sort)
             </td>
         </tr>
         <tr>
             <th align="right">
-                删除：
+                Delete：
             </th>
             <td>@Html.CheckBoxFor(m => m.IsDeleted)
             </td>
@@ -139,7 +139,7 @@
             <th>
             </th>
             <td>
-                <a href="list">返回</a>&nbsp;&nbsp;<input type="submit" value="保存" />
+                <a href="list">Return</a>&nbsp;&nbsp;<input type="submit" value="Preservation" />
             </td>
         </tr>
     </table>
@@ -150,11 +150,11 @@
         var selectedCatIdArr = _GLOBAL.catRoute.split(',');
         var swfu ;
         $(function () {
-            //设置编辑器
+            //Set editor
             _GLOBAL.initEditor('Introduction',null,200);
             _GLOBAL.initEditor('SonModel',null,200);
             createCatSelect(_GLOBAL.rootId, 999999, getChildCats(_GLOBAL.rootId));
-            //初始化SWFUpload
+            //InitializationSWFUpload
             swfu = new SWFUpload({
                 // Backend settings
                 upload_url: "/PagesAdmin/Home/UploadSWF",
@@ -195,7 +195,7 @@
                 },
 
                 // Button Settings
-                button_text: '<span class="redText">选择文件</span>',
+                button_text: '<span class="redText">Select the file</span>',
                 button_text_style: ".redText { color: #FF0000; }",
                 button_placeholder_id: "swfuploadPlaceholder",
                 button_width: 60,
@@ -211,36 +211,36 @@
                 debug: false
             });
         });
-        //开始上传
+        //Start upload
         function customStartUpload() {
             if (swfu.getStats().files_queued === 0) {
-                alert("请先选择本地文件");
+                alert("First select a local file");
                 return false;
             }
             document.getElementById('btnStartUpload').disabled = true;
             document.getElementById('btnUploadCancle').disabled = false;
             swfu.startUpload();
         }
-        //提交表单
+        //Submit the form
         function checkForm() {
-            //1,首先检查是否选择的是叶子节点
-            //2,获取选择的路径，并把值赋值到隐藏域类别路由中
+            //1,First check if the choice is a leaf node
+            //2,Gets the path selection, and the value to the hidden field categories routing
 
-            //第一步
+            //The first step
             var leafCid = parseInt($('#CategoryId').val());
             if (leafCid === 0) {
-                alert('类别请选择叶子节点，不允许选择父节点！');
+                alert('Please choose the type of leaf nodes, not allowed to choose parent node!');
                 return false;
             }
 
-            //检查是否输入产品名
+            //Check whether the input product name
             var titleObj = $('#Title');
             if ($.trim(titleObj.val()) === '') {
-                alert('请输入产品名称！');
+                alert('Please enter the name of the product!');
                 return false;
             }
 
-            //第二步
+            //The second step
             selectedCatIdArr = [];
             $('#cid_999999_span').find('select').each(function () {
                 if (this.type === 'select-one' && this.value !== '0' && this.value !== '') {
@@ -252,7 +252,7 @@
             return true;
         }
         /***************************************类别操作 Start*****************************************/
-        //创建类目
+        //Create a category
         function createCatSelect(cid, pid, catItems) {
             var selectId = 0;
             var sel = document.createElement('SELECT');
@@ -260,7 +260,7 @@
             sel.setAttribute('id', 'cid_' + cid);
             var op = document.createElement('OPTION');
             op.setAttribute('value', '0');
-            op.innerHTML = '==请选择==';
+            op.innerHTML = '==Please select==';
             sel.appendChild(op);            
 
             for (var i in catItems) {
@@ -290,7 +290,7 @@
             cidDiv.id = 'cid_' + cid + '_span';
             cidDiv.style.cssText = 'float:left;padding:0px 2px';
 
-            //向父容器中追加栏目
+            //Additional columns to the parent container
 
             document.getElementById('cid_' + pid + '_span').appendChild(cidDiv);
 
@@ -355,7 +355,7 @@
             var propListObj = $('#prop-list');
             propListObj.html('');
             if (data.length == 0) {
-                propListObj.html('暂无属性');
+                propListObj.html('No attribute');
                 return;
             }
             var htmlArr = [];

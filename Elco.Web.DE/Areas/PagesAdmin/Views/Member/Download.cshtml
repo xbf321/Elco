@@ -1,24 +1,24 @@
 ﻿@{
-    ViewBag.Title = "用户下载";
+    ViewBag.Title = "A user downloads";
     Layout = "../Shared/_Layout.cshtml";
 }
 @ViewBag.Value
 <fieldset>
-    <legend>用户列表</legend>
+    <legend>Downloads</legend>
     <form method="post">
     <table>
         <tr>
-            <td>选择月份：</td>
+            <td>Select month：</td>
             <td><select id="month" name="month">
                 @if(ViewBag.MonthList.Count > 0){
                     foreach(var item in ViewBag.MonthList){
-                        <text><option value="@(item.Item1)">@(item.Item1)(@(item.Item2)人)</option></text>
+                        <text><option value="@(item.Item1)">@(item.Item1)(@(item.Item2))</option></text>
                     }
                 }
             </select></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" id="btnDownload" value="下载" /></td>
+            <td colspan="2"><input type="submit" id="btnDownload" value="Download" /></td>
         </tr>
     </table>
     </form>

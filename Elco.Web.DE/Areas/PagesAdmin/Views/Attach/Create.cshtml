@@ -1,6 +1,6 @@
 ﻿@model Elco.Models.AttachmentInfo
 @{
-    ViewBag.Title = "添加或编辑附件信息";
+    ViewBag.Title = "Add or edit attachment information";
     Layout = "../Shared/_Layout.cshtml";
 
     bool isAdd = Controleng.Common.CECRequest.GetQueryInt("id", 0) == 0;
@@ -14,7 +14,7 @@
 }
 <form method="post">
 <fieldset>
-    <legend>@(isAdd ? "添加" : "编辑")附件信息</legend>
+    <legend>@(isAdd ? "Add to" : "Edit")Annex information</legend>
     @Html.ValidationSummary()
     @if (ViewBag.Status != null)
     {
@@ -22,56 +22,56 @@
         {
             if (isAdd)
             {
-                <text><div class="success">保存成功！是否继续？<a href="?">是</a>&nbsp;或&nbsp;<a href="List">返回</a></div></text>
+                <text><div class="success">Saved successfully! Do you want to continue?<a href="?">Yes</a>&nbsp;Or&nbsp;<a href="List">Return</a></div></text>
             }
             else
             {
-                <text><div class="success">更新成功！<a href="List">返回</a></div></text>
+                <text><div class="success">Update success!<a href="List">Return</a></div></text>
             }
         }
         else
         { 
-            <text><div class="error">出现未知错误，请联系管理员！</div></text>
+            <text><div class="error">An unknown error occurred, please contact the system administrator!</div></text>
         }
     }
     <table width="100%">
         <tr>
             <th align="right" width="10%">
-                所属分类：
+                Classification of the:
             </th>
             <td>@Html.Action("RenderCategoryDropdown", "Attach", new { name="ddlCats",selectedValue=Model.CategoryId})</td>
         </tr>
         <tr>
             <th align="right" width="10%">
-                附件名称：
+                The attachment name：
             </th>
             <td>@Html.TextBoxFor(m => m.Title, new { @class = "input-long" })
             </td>
         </tr>
         <tr>
-            <th align="right">文件大小：</th>
+            <th align="right">File size：</th>
             <td>@Html.TextBoxFor(m => m.Size)M</td>
         </tr>
         <tr>
             <th align="right">
-                图片链接：
+                The picture link：
             </th>
             <td>@Html.TextBoxFor(m => m.ImageUrl, new { @class = "input-long" })&nbsp;&nbsp;<a href="javascript:_GLOBAL.openWindow('/Pagesadmin/Home/UploadImage?obj=ImageUrl',400,100,200);">上传图片</a>
             </td>
         </tr>
         <tr>
             <th align="right" valign="top">
-                下载链接：
+                The download link：
             </th>
             <td>@Html.TextBoxFor(m => m.DownloadUrl, new { @class = "input-long" })&nbsp;&nbsp;<span class="swfuploadWrapper"><span id="swfuploadPlaceholder"></span><span id="tempFileName"></span></span><br />
-            <input type="button" value="开始上传" onclick="customStartUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
-                    type="button" id="btnUploadCancle" value="取消上传" onclick="swfu.cancelQueue();"
+            <input type="button" value="Start upload" onclick="customStartUpload();" id="btnStartUpload" />&nbsp;&nbsp;<input
+                    type="button" id="btnUploadCancle" value="Cancel the upload" onclick="swfu.cancelQueue();"
                     disabled="disabled" /><span id="processbar"></span>
             </td>
         </tr>
         <tr>
             <th align="right">
-                排序：
+                Sorting：
             </th>
             <td>@Html.TextBoxFor(m => m.Sort)
             </td>
@@ -80,7 +80,7 @@
             <th>
             </th>
             <td>
-                <a href="list">返回</a>&nbsp;&nbsp;<input type="submit" value="保存" />
+                <a href="list">Return</a>&nbsp;&nbsp;<input type="submit" value="Preservation" />
             </td>
         </tr>
     </table>
@@ -131,7 +131,7 @@
                 },
 
                 // Button Settings
-                button_text: '<span class="redText">选择文件</span>',
+                button_text: '<span class="redText">Select the file</span>',
                 button_text_style: ".redText { color: #FF0000; }",
                 button_placeholder_id: "swfuploadPlaceholder",
                 button_width: 60,
@@ -150,7 +150,7 @@
         //开始上传
         function customStartUpload() {
             if (swfu.getStats().files_queued === 0) {
-                alert("请先选择本地文件");
+                alert("First select a local file");
                 return false;
             }
             document.getElementById('btnStartUpload').disabled = true;

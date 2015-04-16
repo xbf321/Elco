@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "宜科管理后台";
+    ViewBag.Title = "Elco management background";
     Layout = "../Shared/_Layout.cshtml";
 }
 @section header{
@@ -32,57 +32,58 @@
 }
 <div id="header-top">
     <h2 id="header-top-logo">
-        宜科管理后台</h2>
+        CMS for Elco-de</h2>
 </div>
 <div id="main-body">
     <div id="nav-side-bar">
         <ul id="treeview" class="treeview">
-            <li><a href="/PagesAdmin/Category/List?lang=-1" target="iframeMain">类别管理</a></li>
-            <li>文章管理
+            <li><a href="/PagesAdmin/Category/List?lang=-1" target="iframeMain">Column management</a></li>
+            <li>Article management
                 <ul>
-                    <li><a href="/PagesAdmin/Article/Create" target="iframeMain">添加文章</a></li>
-                    <li><a href="/PagesAdmin/Article/List" target="iframeMain">文章列表</a></li>
+                    <li><a href="/PagesAdmin/Article/Create" target="iframeMain">Add article</a></li>
+                    <li><a href="/PagesAdmin/Article/List" target="iframeMain">Article list
+</a></li>
                 </ul>
             </li>
-            <li>产品管理
+            <li>Product management
                 <ul>
-                    <li><a href="/PagesAdmin/Product/Create" target="iframeMain">添加产品</a></li>
-                    <li><a href="/PagesAdmin/Product/List" target="iframeMain">产品列表</a></li>
-                    <li><a href="/PagesAdmin/Product/Prop" target="iframeMain">产品属性管理</a></li>
-                    <li><a href="/PagesAdmin/Product/CatList" target="iframeMain">产品分类管理</a></li>
+                    <li><a href="/PagesAdmin/Product/Create" target="iframeMain">Add product</a></li>
+                    <li><a href="/PagesAdmin/Product/List" target="iframeMain">Product list</a></li>
+                    <li><a href="/PagesAdmin/Product/Prop" target="iframeMain">Product attribute</a></li>
+                    <li><a href="/PagesAdmin/Product/CatList" target="iframeMain">Product category</a></li>
                 </ul>
             </li>
-            <li><a href="/Pagesadmin/Feedback/List" target="iframeMain">投诉与建议</a></li>
+            <li><a href="/Pagesadmin/Feedback/List" target="iframeMain">Feedback</a></li>
             <li>
-                下载管理
+                Download management
                 <ul>
-                   <li><a href="/pagesadmin/attach/create" target="iframeMain">添加附件信息</a></li>
-                    <li><a href="/pagesadmin/attach/list" target="iframeMain">下载列表</a></li>
-                    <li><a href="/pagesadmin/attach/loglist" target="iframeMain">下载日志</a></li>
+                   <li><a href="/pagesadmin/attach/create" target="iframeMain">Add</a></li>
+                    <li><a href="/pagesadmin/attach/list" target="iframeMain">List</a></li>
+                    <li><a href="/pagesadmin/attach/loglist" target="iframeMain">Record</a></li>
                 </ul>
             </li>
-            <li>系统管理
+            <li>User management
                 <ul>
-                    <li><a href="/PagesAdmin/Member/List" target="iframeMain">用户列表</a></li>
-                    <li><a href="/PagesAdmin/Member/Download" target="iframeMain">用户下载</a></li>
-                    <li><a href="/PagesAdmin/Member/AdminList" target="iframeMain">管理员列表</a></li>
-                    <li><a href="/PagesAdmin/Member/SetAdminPwd" target="iframeMain">修改密码</a></li>
+                    <li><a href="/PagesAdmin/Member/List" target="iframeMain">Member list</a></li>
+                    <li><a href="/PagesAdmin/Member/Download" target="iframeMain">Download member</a></li>
+                    <li><a href="/PagesAdmin/Member/AdminList" target="iframeMain">Manager list</a></li>
+                    <li><a href="/PagesAdmin/Member/SetAdminPwd" target="iframeMain">Modify password</a></li>
                 </ul>
             </li>
-            <li><a href="/PagesAdmin/logout">退出</a></li>            
+            <li><a href="/PagesAdmin/logout">Quit</a></li>            
         </ul>
     </div>
     <div id="main-content">
         <p id="main-content-nav-wrapper">
-            <span id="m-c-n-img"></span><span id="m-c-n-current">当前位置：</span> <span id="m-c-n-text">
-                系统首页</span>
+            <span id="m-c-n-img"></span><span id="m-c-n-current">current position：</span> <span id="m-c-n-text">
+                system home page</span>
         </p>
         <iframe id="iframeMain" name="iframeMain" width="100%" scrolling="yes" frameborder="0"
             src="/Pagesadmin/Article/List" style="overflow-x: hidden;"></iframe>
     </div>
 </div>
 <div id="footer">
-    技术支持：兴百放(13466332458)&nbsp;&nbsp;Email:xbf321@gmail.com</div>
+    Support：兴百放(13466332458)&nbsp;&nbsp;Email:xbf321@gmail.com</div>
 @section footer{
     <script type="text/javascript">
         $(function () {

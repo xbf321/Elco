@@ -27,7 +27,7 @@
 <p>
     <img src="@(rootCategoryInfo.BannerAdImageUrl)" alt="@(rootCategoryInfo.Name)" width="980" height="98" /></p>
 <div class="elco_Leftbar" style="margin:0 10px;width:190px;">
-    <strong>Fast channel</strong> <span class="box_7"></span>
+    <strong>Product tree</strong> <span class="box_7"></span>
     <label>
         @Html.Action("RenderProductDropDownList", "Product", new { selectedValue = Controleng.Common.CECRequest.GetQueryInt("catId",0)})
     </label>

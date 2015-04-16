@@ -9,5 +9,5 @@
            <text><li><span class="newsdate">@(item.PublishDateTime.ToString("yyyy-MM-dd"))</span> <a href="@(item.Url)" title="@(item.Title)">@(item.Title)</a></li></text>
         }
     </ul>
-    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" },1))
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(articleList.PageIndex, articleList.PageSize, articleList.TotalItemCount, new { @class = "pagebar" },new Elco.Models.PageOptions() { NextText = "nächste", PrevText = "früher", LastText = "", FirstText = "", TotalText = "Total" }))
 </div>

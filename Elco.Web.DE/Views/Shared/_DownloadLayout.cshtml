@@ -11,7 +11,7 @@
      * CurrentCategoryInfo
      *      当左边子导航从数据库中获取的时候，如果选择的子导航中的分类，则左边子导航默认是选择状态
      */
-    var rootCategoryInfo = Elco.Services.CategoryService.Get(Elco.Config.GeneralConfig.DownloadRootId_EN);
+    var rootCategoryInfo = Elco.Services.CategoryService.Get(Elco.Config.GeneralConfig.DownloadRootId_DE);
     var currentCategoryInfo = ViewBag.CurrentCategoryInfo ?? new Elco.Models.CategoryInfo() { Id = 0, Name = "Download Center" };
 }
 @section header{

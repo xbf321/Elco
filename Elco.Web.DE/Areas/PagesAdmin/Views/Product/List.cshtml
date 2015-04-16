@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "产品列表";
+    ViewBag.Title = "The list of products";
     Layout = "../Shared/_Layout.cshtml";
 
     var list = ViewBag.List;
@@ -12,36 +12,36 @@
     </style>
 }
 <fieldset>
-    <legend>产品列表</legend>
+    <legend>The list of products</legend>
     <table width="100%">
         <tr>
-            <th width="10%" align="right">选择分类：</th>
+            <th width="10%" align="right">Select a category：</th>
             <td>
                 <select id="ddlCats" name="ddlCats">
                     @foreach(var item in ViewBag.CatList){
                         <text><option value="@(item.Id)" @Html.Raw(catId == item.Id ? "selected=\"selected\"" : "")>@(item.Name)</option></text>
                     }
-                </select><input type="button" value="查询" id="btnSearch" />
+                </select><input type="button" value="Query" id="btnSearch" />
             </td>
-            <td align="right"><a href="Create" class="btn-add">添加产品</a></td>
+            <td align="right"><a href="Create" class="btn-add">Add product</a></td>
         </tr>
     </table>
     <table width="100%" class="tblist">
         <tr>
             <th width="10%">
-                序号
+                Serial number
             </th>
             <th>
-                名称
+                Name
             </th>
             <th width="12%">
-                发布时间
+                Release time
             </th>
             <th width="10%">
-                删除
+                Delete
             </th>
             <th width="10%">
-                操作
+                Operation
             </th>
         </tr>
         @foreach (var item in list)
@@ -49,19 +49,19 @@
             <tr>
                 <td class="tdcenter">@item.Id
                 </td>
-                <td style="padding-left: 5px;"><a href="/product/list-@(item.CategoryId).html" target="_blank">@Html.Raw(item.IsDeleted ? "<span style=\"text-decoration: line-through;\">" + item.Title + "</span>" : item.Title)</a>
+                <td style="padding-left: 5px;"><a href="/produke/list-@(item.CategoryId).html" target="_blank">@Html.Raw(item.IsDeleted ? "<span style=\"text-decoration: line-through;\">" + item.Title + "</span>" : item.Title)</a>
                 </td>
                 <td class="tdcenter">@item.CreateDateTime.ToString("yyyy-MM-dd")
                 </td>
-                <td class="tdcenter">@Html.Raw(item.IsDeleted ? "<font color=\"red\">已删除</font>" : "否")
+                <td class="tdcenter">@Html.Raw(item.IsDeleted ? "<font color=\"red\">Deleted</font>" : "No")
                 </td>
                 <td class="tdcenter">
-                    <a href="create?id=@(item.Id)" class="edit">编辑</a>
+                    <a href="create?id=@(item.Id)" class="edit">Edit</a>
                 </td>
             </tr>
         }
     </table>
-    @Html.Raw(Elco.Common.PagerBarHelper.Render(list.PageIndex, list.PageSize, list.TotalItemCount, new { @class = "pagerbar" }))
+    @Html.Raw(Elco.Common.PagerBarHelper.Render(list.PageIndex, list.PageSize, list.TotalItemCount, new { @class = "pagerbar" },new Elco.Models.PageOptions(){NextText = "nächste"}))
 </fieldset>
 @section footer{
     <script type="text/javascript">

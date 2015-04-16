@@ -34,23 +34,23 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             if (articleInfo.CategoryId == 0)
             {
                 errors = true;
-                ModelState.AddModelError("CAT", "请选择分类");
+                ModelState.AddModelError("CAT", "Please select the category");
             }
             if (string.IsNullOrEmpty(articleInfo.Title))
             {
                 errors = true;
-                ModelState.AddModelError("TITLT", "请输入文章标题");
+                ModelState.AddModelError("TITLT", "Please enter a title ");
             }
             if (!errors && ModelState.IsValid)
             {
                 ArticleService.Create(articleInfo);
                 if (isAdd)
                 {
-                    ViewBag.Msg = "添加成功！是否继续？【<a href=\"create\">是</a>】&nbsp;&nbsp;【<a href=\"list\">否</a>】";
+                    ViewBag.Msg = "Success.Continue?【<a href=\"create\">Yes</a>】&nbsp;&nbsp;【<a href=\"list\">No</a>】";
                 }
                 else
                 {
-                    ViewBag.Msg = "修改成功！是否继续？【<a href=\"create\">是</a>】&nbsp;&nbsp;【<a href=\"list\">否</a>】";
+                    ViewBag.Msg = "Success.Continue?【<a href=\"create\">Yes</a>】&nbsp;&nbsp;【<a href=\"list\">No</a>】";
                 }
             }
 
@@ -92,7 +92,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             //输出下载所属分类
             //输出下拉列表(排除掉产品分类和下载中心)
             var all = Elco.Services.CategoryService.ListAll().Where(p => p.IsDeleted == false);
-            var nonUseCatList = CategoryService.ListAllSubCatById(new int[] { GeneralConfig.ProductRootId_EN, GeneralConfig.DownloadRootId_EN });
+            var nonUseCatList = CategoryService.ListAllSubCatById(new int[] { GeneralConfig.ProductRootId_DE });
 
             var exceptCatList = all.Except(nonUseCatList);
 
@@ -100,7 +100,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
 
             StringBuilder sbHtml = new StringBuilder();
             sbHtml.AppendFormat("<select id=\"{0}\" name=\"{0}\">", name);
-            sbHtml.Append("<option value=\"0\">==请选择==</option>");
+            sbHtml.Append("<option value=\"0\">==please select==</option>");
 
             var newCatList = new List<CategoryInfo>();
             Action<IEnumerable<CategoryInfo>, List<CategoryInfo>, int, int> fb = null;

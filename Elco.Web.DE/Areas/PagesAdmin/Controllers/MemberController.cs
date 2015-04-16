@@ -130,11 +130,11 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             string oldPassword = fc["txtOldPassword"];
             string newPassword = fc["txtNewPassword"];
             if(string.IsNullOrEmpty(oldPassword)){
-                ModelState.AddModelError("oldPassword","请输入旧密码！");
+                ModelState.AddModelError("oldPassword","Please enter your old Password.");
                 errors = true;
             }
             if(string.IsNullOrEmpty(newPassword)){
-                ModelState.AddModelError("newPassword", "请输入新密码！");
+                ModelState.AddModelError("newPassword", "Please enter your new Password.");
                 errors = true;
             }
             if(!errors && ModelState.IsValid){
@@ -151,7 +151,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("oldPasswordError", "原密码错误，请重试！");
+                        ModelState.AddModelError("oldPasswordError", "Original password is incorrect, please try again.");
                     }
                 }
             }

@@ -9,28 +9,28 @@
     <script src="/Scripts/jquery.jslidenews.js" type="text/javascript"></script>
 }
 <div class="elco_Leftbar">
-    <strong>Fast channel</strong> <span class="box_7"></span>
+    <strong>Schnellverbindung</strong> <span class="box_7"></span>
     <label>
         @Html.Action("RenderProductDropDownList", "Product")
     </label>
     <span class="box_10"></span>
     <div class="prodsort_bar">
             <h2>
-                <strong>Product Catalogues</strong></h2>
+                <strong>Product Tree</strong></h2>
             <div class="product-menu">
                 @Html.Action("RenderProductMenu", "Product")
             </div>
         </div>
 </div>
 <div class="elco_Rightbar">
-    <div id="jslidernews" class="lof-slidecontent" style="width: 770px; height: 460px;">
+    <div id="jslidernews" class="lof-slidecontent" style="width: 770px; height:340px;">
         <div class="preload">
             <div>
             </div>
         </div>
          <div  class="button-previous">Previous</div>
         <!-- MAIN CONTENT -->
-        <div class="main-slider-content" style="width: 770px; height: 460px;">
+        <div class="main-slider-content" style="width: 770px; height: 340px;">
             <ul class="sliders-wrap-inner">
                 @foreach (var item in ViewBag.Focus)
                 {
@@ -62,6 +62,54 @@
         <div class="button-next">Next</div>
     </div>
     <span class="box_15"></span>
+    <div class="eventNewsMagz_bar">
+        <div class="newsMagz_bar" style="width:369px;float:left;">
+            <h3>
+                <a href="/news">News</a></h3>
+            @if (ViewBag.NewsCenter.Count > 1)
+            {
+                var first = ViewBag.NewsCenter[0];
+                ViewBag.NewsCenter.RemoveAt(0);
+                <text>
+                <div class="newsMagz_imgIntrod">
+                    <img src="@(first.ImageUrl)" alt="@(first.Title)" />
+                    <p class="newsMagzInfo">
+                        <a href="@(first.Url)" class="gree30" target="@(first.Title)">@(first.Title)</a></p>
+                </div>
+                </text>
+            }
+            <span class="box_5"></span>
+            <ul class="newsMagz_List">
+                @foreach (var item in ViewBag.NewsCenter)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">@(Goodspeed.Common.CharHelper.Truncate(item.Title,23))</a></li></text>
+                }
+            </ul>
+        </div>
+        <div class="newsMagz_bar" style="width:355px; float:left; background:none;">
+            <h3>
+                <a href="/channel/134.html">Produkt-Highlights</a></h3>
+            @if (ViewBag.ProduktHighlights.Count > 1)
+            {
+                var first = ViewBag.ProduktHighlights[0];
+                ViewBag.ProduktHighlights.RemoveAt(0);
+                <text>
+                <div class="newsMagz_imgIntrod">
+                    <img src="@(first.ImageUrl)" alt="@(first.Title)" />
+                    <p class="newsMagzInfo">
+                        <a href="@(first.Url)" class="gree30" target="@(first.Title)">@(first.Title)</a></p>
+                </div>
+                </text>
+            }
+            <span class="box_5"></span>
+            <ul class="newsMagz_List">
+                @foreach (var item in ViewBag.ProduktHighlights)
+                {
+                    <text><li><a href="@(item.Url)" target="_blank" title="@(item.Title)">@(Goodspeed.Common.CharHelper.Truncate(item.Title, 23))</a></li></text>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
 @section footer{
     <script type="text/javascript">

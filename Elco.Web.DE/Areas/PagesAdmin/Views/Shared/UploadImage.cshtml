@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>上传图片</title>
+    <title>UploadImage</title>
     <script type="text/javascript">
         function insert(url) {
             window.opener._GLOBAL.insertImageToEditor('@(obj)', url);
@@ -19,17 +19,17 @@
         switch ((string)ViewBag.Msg)
         {
             case "success":
-        <text><input type="button" onclick="insert('@ViewBag.ImageUrl');" value="上传成功，请插入" /></text>
+        <text><input type="button" onclick="insert('@ViewBag.ImageUrl');" value="Success" /></text>
                                                break;
             default:
-        <text>上传错误，请<a href="@(postUrl)">重试！</a></text>
+        <text>Error,<a href="@(postUrl)">please retry！</a></text>
                          break;
         }
     }
     else
     {
         <form action="@(postUrl)" method="post" enctype="multipart/form-data">
-        <input type="file" id="img0" name="img0" /><input type="submit" value="上传" />
+        <input type="file" id="img0" name="img0" /><input type="submit" value="Upload" />
         </form>
     }
 </body>

@@ -1,18 +1,18 @@
 ﻿@{
-    ViewBag.Title = "管理员列表";
+    ViewBag.Title = "The list of administrators";
     Layout = "../Shared/_Layout.cshtml";
 }
 <fieldset>
-    <legend>管理员列表</legend>
+    <legend>The list of administrators</legend>
     @if(ViewBag.Status != null){
         if(ViewBag.Status == "AddSuccess"){
-            <text><div class="success">添加成功！</div></text>
+            <text><div class="success">Added successfully!</div></text>
         }
         if(ViewBag.Status == "AddError"){
-            <text><div class="error">已经存在此管理员，添加失败！</div></text>
+            <text><div class="error">The administrator already exists, add failed!</div></text>
         }
         if(ViewBag.Status == "DeleteSuccess"){
-            <text><div class="success">删除成功！</div></text>
+            <text><div class="success">Successfully deleted!</div></text>
         }
     }
     <form method="post" id="form">
@@ -20,19 +20,19 @@
         <input type="hidden" id="_userId" name="_userId" />
         <table>
             <tr>
-                <td>用户名：</td>
+                <td>The user name：</td>
                 <td><input type="text" id="txtUserName" name="txtUserName" /></td>
-                <td><input type="submit" value="查询" id="btnSearch" /><font color="red" style="margin-left:10px">注：【用户名】即在前台页面注册的用户信息！</font></td>
+                <td><input type="submit" value="Query" id="btnSearch" /><font color="red" style="margin-left:10px">Note: [username] that is registered in the front page of the user information!</font></td>
             </tr>
         </table>
         @if(ViewBag.SearchList != null){
             <fieldset>
-                <legend>查询结果</legend>
+                <legend>The results of the query</legend>
                 <table>
                 @foreach(var item in ViewBag.SearchList){
                     <tr>
                         <td>@(item.Value)</td>
-                        <td><a href="###" onclick="add(@(item.Key))">添加</a></td>
+                        <td><a href="###" onclick="add(@(item.Key))">Add to</a></td>
                     </tr>
                 }
             </table>
@@ -41,15 +41,15 @@
         }
         <table class="tblist">
             <tr>
-                <th>用户名</th>
-                <th>添加时间</th>
-                <th>操作</th>
+                <th>The user name</th>
+                <th>Add time</th>
+                <th>Operation</th>
             </tr>
             @foreach(var item in ViewBag.List){
                 <tr>
                     <td>@(item.UserName)</td>
                     <td>@(item.CreateDateTime.ToString("yyyy-MM-dd"))</td>
-                    <td><a href="###" onclick="del(@(item.Id))">删除</a></td>
+                    <td><a href="###" onclick="del(@(item.Id))">Delete</a></td>
                 </tr>
             }
         </table>
@@ -58,14 +58,14 @@
 @section footer{
     <script type="text/javascript">
         function del(uid) {
-            if (window.confirm('确定删除？')) {
+            if (window.confirm('Sure to delete?')) {
                 $('#_action').val('delete');
                 $('#_userId').val(uid);
                 $('#form').submit();
             }
         }
         function add(uid) {
-            if (window.confirm('确定要添加？')) {
+            if (window.confirm('Sure you want to add?')) {
                 $('#_action').val('add');
                 $('#_userId').val(uid);
                 $('#form').submit();

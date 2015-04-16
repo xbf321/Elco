@@ -38,7 +38,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
 
             int catId = CECRequest.GetQueryInt("catId",0);
             if(catId == 0){
-                catId = Elco.Config.GeneralConfig.DownloadRootId_EN;
+                catId = Elco.Config.GeneralConfig.DownloadRootId_DE;
             }
 
             var list = AttachmentService.List(new AttachmentSearchSetting()
@@ -71,7 +71,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
             bool errors = false;
             if(string.IsNullOrEmpty(model.Title)){
                 errors = true;
-                ModelState.AddModelError("Title","请输入附件名称");
+                ModelState.AddModelError("Title", "Please enter the name of the attachment");
             }
             if(!errors && ModelState.IsValid){
 
@@ -79,7 +79,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
                 model.CategoryId = Utils.StrToInt(fc["ddlCats"], 0);
                 if (model.CategoryId == 0)
                 {
-                    ModelState.AddModelError("CategoryError","请选择分类");
+                    ModelState.AddModelError("CategoryError", "Please select the category");
                 }
                 else
                 {
@@ -116,7 +116,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
         [ChildActionOnly]
         public ActionResult RenderCategoryDropdown(string name,object selectedValue) {
             //输出下载所属分类
-            int rootId = GeneralConfig.DownloadRootId_EN;
+            int rootId = GeneralConfig.DownloadRootId_DE;
             var oldCatList = CategoryService.ListAllSubCatById(rootId).Where(p => p.IsEnabled == true && p.IsDeleted == false);
             var newCatList = new List<CategoryInfo>();
 
@@ -139,7 +139,7 @@ namespace Elco.Web.En.Areas.PagesAdmin.Controllers
 
             StringBuilder sbHtml = new StringBuilder();
             sbHtml.AppendFormat("<select id=\"{0}\" name=\"{0}\">",name);
-            sbHtml.Append("<option value=\"0\">==请选择==</option>");
+            sbHtml.Append("<option value=\"0\">==please select==</option>");
             foreach(var item in newCatList){
                 sbHtml.AppendFormat("<option value=\"{1}\" {2}>{0}</option>", item.Name, item.Id, selectedValue.Equals(item.Id) ? "selected=\"selected\"" : string.Empty);
             }

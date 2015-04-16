@@ -20,7 +20,7 @@ namespace Elco.Web.En
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 
-            #region == News ==
+            #region == /news ==
             routes.MapRoute(
                 "ArticleShow",
                 "n/{fulltimespan}.html",
@@ -29,16 +29,24 @@ namespace Elco.Web.En
             );
             #endregion
 
-            #region == product/list-xx.html ==
+            #region == /product/list-xx.html ==
             routes.MapRoute(
                 "ProductList",
-                "product/list-{catId}.html",
+                "produke/list-{catId}.html",
                 new { controller = "Product", action = "List", catId = @"\d+" },
                 new string[] { "Elco.Web.En.Controllers" }
             );
             #endregion
+            #region == /produke ==
+            routes.MapRoute(
+                "Produke",
+                "produke",
+                new { controller = "Product", action = "Index"},
+                new string[] { "Elco.Web.En.Controllers" }
+            );
+            #endregion
 
-            #region == Channel ==
+            #region == /channel/3.html ==
             routes.MapRoute(
                 "Channel_Show", // Route name
                 "channel/{value}.html", // URL with parameters
@@ -47,7 +55,7 @@ namespace Elco.Web.En
             );
             #endregion
 
-            #region == Search ==
+            #region == /search ==
             routes.MapRoute(
                 "Search", // Route name
                 "Search", // URL with parameters

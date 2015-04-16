@@ -12,14 +12,14 @@
                     width: 430,
                     height: 250,
                     inline: 1,
-                    title: '\u63D2\u5165\u9644\u4EF6'
+                    title: 'Insert Attachment'
                 }, {
                     plugin_url: url
                 });
             });
             // Register buttons
             ed.addButton('attach', {
-                title: '\u63D2\u5165\u9644\u4EF6',
+                title: 'Insert Attachment',
                 cmd: 'mceAttach',
                 image: url + '/img/zip.gif'
             });

@@ -1,6 +1,6 @@
 ﻿@model Elco.Models.MemberInfo
 @{
-    ViewBag.Title = "宜科后台登陆";
+    ViewBag.Title = "Login";
     Layout = "../Shared/_Layout.cshtml";
 }
 @section header{
@@ -17,7 +17,7 @@
 }
 <div class="login-wrapper">
     <div class="login-title">
-        <img src="/images/pagesadmin/login_title.gif" />
+        <img src="/images/pagesadmin/login_title.png" />
     </div>
     <div class="login-main">
         <div class="login-main-form">
@@ -25,16 +25,16 @@
             @Html.ValidationSummary()
             <table>
                 <tr>
-                    <th align="right">用户名：</th>
+                    <th align="right">User ID：</th>
                     <td>@Html.TextBoxFor(m=>m.UserName)</td>
                 </tr>
                 <tr>
-                    <th align="right">密码：</th>
+                    <th align="right">Password：</th>
                     <td>@Html.PasswordFor(m=>m.UserPassword)</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="登录" /></td>
+                    <td><input type="submit" value="Login" /></td>
                 </tr>
             </table>    
          </form>
